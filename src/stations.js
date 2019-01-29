@@ -12,7 +12,7 @@ const stations = [
 	{
 		id: 3,
 		prefix: 'club',
-		name: 'Club'
+		name: 'EDM'
 	},
 	{
 		id: 4,
@@ -57,7 +57,7 @@ const stations = [
 	{
 		id: 12,
 		prefix: 'sd90',
-		name: 'Супердискотека-90'
+		name: 'Супердискотека 90'
 	},
 	{
 		id: 13,
@@ -169,11 +169,6 @@ const stations = [
 		prefix: 'complextro',
 		name: 'Complextro'
 	},
-	{
-		id: 35,
-		prefix: 'club',
-		name: 'EDM'
-	}
 ];
 
 export default stations;

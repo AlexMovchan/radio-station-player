@@ -4,6 +4,7 @@ import Stations from '../Components/Stations/Stations';
 import Player from '../Components/Player/Player';
 import { API_URL } from '../config';
 import { error } from 'util';
+import { Header } from './style';
 
 let interval = null;
 
@@ -52,7 +53,8 @@ export default class App extends Component {
 		const validUrl = `${API_URL}xml/${activeStation.prefix}_online_v8.txt`;
 		fetch(validUrl)
 			.then(res => res.json())
-			.then(data => this.setState({ trackInfo: data }));
+			.then(data => this.setState({ trackInfo: data }))
+			.catch(err => console.error(err));
 	}
 
 	render() {
@@ -60,7 +62,9 @@ export default class App extends Component {
 
 		return (
 			<div className='App'>
-				<Player activeStation={activeStation} isPaused={isPaused} togglePauseIcon={this.togglePauseIcon} getTrackInfo={this.getTrackInfo} trackInfo={trackInfo} />
+				<Header>
+					<Player activeStation={activeStation} isPaused={isPaused} togglePauseIcon={this.togglePauseIcon} getTrackInfo={this.getTrackInfo} trackInfo={trackInfo} />
+				</Header>
 				<Stations stations={stations} activeStation={activeStation} setActiveRadiostation={this.setActiveRadiostation} />
 			</div>
 		);

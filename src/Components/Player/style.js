@@ -1,12 +1,25 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
-export const ControlsContainer = styled.header `
-	width: 100%;
-	height: 50px;
+const rotate = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+`;
+
+export const PlayerContainer = styled.div `
+	width: 60%;
+	height: 60px;
 	display: flex;
 	flex-flow: row;
+	align-items: center;
 	justify-content: space-between;
-`;
+    padding: 10px 5px;
+	border-radius: 5px;
+	`;
 
 export const PlayBtn = styled.div `
 	width: 50px;
@@ -14,16 +27,26 @@ export const PlayBtn = styled.div `
 	background-image: ${props => props.isPaused ? 'URL(./img/play.png)' : 'URL(./img/pause.png)'};
 	background-size: 100%;
 	background-position: center;
+	/* animation: ${rotate} 5s linear infinite; */
 `;
 
 export const TrackIcon = styled.div `
 	width: 50px;
 	height: 50px;
-	background-image: ${props => props.trackIcon ? `URL(${props.trackIcon})` : 'none'};
-	background-size: 100%;
+	margin: 0 5px;
+	background-image: ${props => props.trackIcon ? `URL(${props.trackIcon})` : 'URL(./img/default-player-image.svg)'};
+	background-size: 90%;
 	background-position: center;
+	border: 1px solid white;
+    background-repeat: no-repeat;
 `;
+
 
 export const TrackInfo = styled.div `
 	display: flex;
+
+	a {
+		color: white;
+		text-shadow: 1px 1px 1px black;
+	}
 `;

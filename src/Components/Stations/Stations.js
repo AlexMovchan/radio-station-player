@@ -15,7 +15,7 @@ const Stations = ({ stations, setActiveRadiostation, activeStation}) =>
 				<BackgroundGradientDown isActive={activeStation.id === station.id} />
 				<BackgroundGradientUp isActive={activeStation.id === station.id} />
 				<div className='info'>
-					<TrackName>{station.name}</TrackName>
+					<TrackName isActive={activeStation.id === station.id}>{station.name}</TrackName>
 				</div>
 			</StationCart>
 		)}

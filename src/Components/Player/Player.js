@@ -2,26 +2,26 @@ import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 
 import {
-	ControlsContainer,
+	PlayerContainer,
 	PlayBtn,
 	TrackIcon,
 	TrackInfo
 } from './style';
 
 const Player = ({ activeStation, togglePauseIcon, isPaused, getTrackInfo, trackInfo }) => {
-	console.log(trackInfo);
 	return (
 		<Fragment>
 			<audio src={`http://air.radiorecord.ru:805/${activeStation.prefix || 'rr'}_320`} id='audio' />
-			<ControlsContainer>
-				<PlayBtn isPaused={isPaused} onClick={togglePauseIcon} />
+			<PlayerContainer>
 				<TrackInfo>
 					<TrackIcon trackIcon={trackInfo.image600} />
-					<h5><a href={trackInfo.itunesURL} target='_blank' rel='noopener noreferrer'>{trackInfo.artist} - {trackInfo.title}</a></h5>	
+					<div>
+						<div><a href={trackInfo.itunesURL} target='_blank' rel='noopener noreferrer'>{trackInfo.artist}</a></div>	
+						<div><a href={trackInfo.itunesURL} target='_blank' rel='noopener noreferrer'>{trackInfo.title}</a></div>
+					</div>	
 				</TrackInfo>
-
-				<button onClick={getTrackInfo} >Oke </button>
-			</ControlsContainer>
+				<PlayBtn isPaused={isPaused} onClick={togglePauseIcon} />
+			</PlayerContainer>
 		</Fragment>
 	);
 };

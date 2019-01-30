@@ -14,7 +14,7 @@ export const StationCart = styled.div `
     display: flex;
     justify-content: center;
     align-items: ${props => props.isActive ? 'center' : 'flex-end'};
-    background-image: ${props => props.isActive ? 'none' : `URL(./img/${props.prefix}.png)`};
+    background-image: ${props => `URL(./img/${props.prefix}.png)`};
     background-position-x: center;
     background-size: 80%;
     background-repeat: no-repeat;
@@ -33,8 +33,9 @@ export const BackgroundGradientDown = styled.div `
     height: ${props => props.isActive ? '130px' : '0'};
     top: 0;
     left: 0;
-    background: #d6ffc9;
+    background: #dedede;
     transition: all 1s;
+    opacity: 0.7;
 `;
 
 export const BackgroundGradientUp = styled.div `
@@ -43,11 +44,15 @@ export const BackgroundGradientUp = styled.div `
     height: ${props => props.isActive ? '130px' : '0'};
     top: ${props => props.isActive ? '0' : '130px'};
     left: 0;
-    background: #d6ffc9;
+    background: #dedede;
     transition: all 1s;
+    opacity: 0.7;
 `;
 
 export const TrackName = styled.div `
     position: relative;
+    font-size: ${props => props.isActive ? '30px' : '16px'};
+    transition: all 1s;
+    text-shadow: 1px 1px 2px white;
 `;
 

@@ -30,6 +30,19 @@ export default class App extends Component {
 		clearInterval(interval);
 		this.setState({ activeStation: station, isPaused: false });
 		interval = setInterval(this.getTrackInfo, 2000);
+
+
+		fetch('http://back.com', {
+			method: 'post',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(station)
+		})
+			.then(res => res.json())
+			.then(res => console.log(res))
+			.catch(err => console.error(err));
 	}
 
 	// toggle icon on player and set the music play/pause

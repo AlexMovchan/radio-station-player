@@ -3,8 +3,8 @@ import stations from '../stations';
 import Stations from '../Components/Stations/Stations';
 import Player from '../Components/Player/Player';
 import { API_URL } from '../config';
-import { error } from 'util';
 import { Header } from './style';
+
 
 let interval = null;
 

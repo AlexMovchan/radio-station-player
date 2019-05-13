@@ -2,6 +2,9 @@
   "name": "radio-station-player",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "10.3.0"
+  },
   "dependencies": {
     "react": "^16.7.0",
     "react-dom": "^16.7.0",

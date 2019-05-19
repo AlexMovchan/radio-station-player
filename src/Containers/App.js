@@ -5,6 +5,7 @@ import Player from '../Components/Player/Player';
 import { API_URL } from '../config';
 import { Header } from './style';
 
+
 let interval = null;
 const initialState = {
 	activeStation: {},

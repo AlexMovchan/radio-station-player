@@ -5,11 +5,10 @@ export const Container = styled.div `
     flex-flow: row wrap;
 `;
  
-export const StationCart = styled.div `
+export const StationCard = styled.div `
     position: relative;
-    width: 110px;
-    height: 110px;
-    padding: 10px;
+    width: 130px;
+    height: 130px;
     margin: 10px;
     display: flex;
     justify-content: center;
@@ -27,31 +26,28 @@ export const StationCart = styled.div `
     }
 `;
 
-export const BackgroundGradientDown = styled.div `
-    position: absolute;
-    width: 130px;
-    height: ${props => props.isActive ? '130px' : '0'};
-    top: 0;
-    left: 0;
-    background: #dedede;
-    transition: all 1s;
-    opacity: 0.7;
-`;
-
-export const BackgroundGradientUp = styled.div `
-    position: absolute;
-    width: 130px;
-    height: ${props => props.isActive ? '130px' : '0'};
-    top: ${props => props.isActive ? '0' : '130px'};
-    left: 0;
-    background: #dedede;
-    transition: all 1s;
-    opacity: 0.7;
+export const InfoContainer = styled.div `
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    width: 100%;
+    position: relative;
+    background: ${props => props.isActive ? '#d4ffc394' : 'transparent'};
+    &::before {
+        content: '😎';
+        display: ${props => props.isActive ? 'block' : 'none'};
+        width: 24px;
+        height: 24px;
+        position: absolute;
+        left: 5px;
+        top: 5px;
+    }
 `;
 
 export const TrackName = styled.div `
     position: relative;
-    font-size: ${props => props.isActive ? '30px' : '16px'};
+    font-size: ${props => props.isActive ? '16px' : '16px'};
     transition: all 1s;
     text-shadow: 1px 1px 2px white;
 `;

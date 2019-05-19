@@ -2,22 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
 	Container,
-	StationCart,
-	BackgroundGradientDown,
-	BackgroundGradientUp,
-	TrackName
+	StationCard,
+	TrackName,
+	InfoContainer
 } from './style';
 
 const Stations = ({ stations, setActiveRadiostation, activeStation}) =>
 	<Container>
 		{stations.map(station => 
-			<StationCart isActive={activeStation.id === station.id} prefix={station.prefix} onClick={() => setActiveRadiostation(station)} key={station.id} >
-				<BackgroundGradientDown isActive={activeStation.id === station.id} />
-				<BackgroundGradientUp isActive={activeStation.id === station.id} />
-				<div className='info'>
+			<StationCard isActive={activeStation.id === station.id} prefix={station.prefix} onClick={() => setActiveRadiostation(station)} key={station.id} >
+				<InfoContainer isActive={activeStation.id === station.id}>
 					<TrackName isActive={activeStation.id === station.id}>{station.name}</TrackName>
-				</div>
-			</StationCart>
+				</InfoContainer>
+			</StationCard>
 		)}
 	</Container>;
 

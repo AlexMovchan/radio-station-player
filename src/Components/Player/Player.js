@@ -8,7 +8,7 @@ import {
 	TrackInfo
 } from './style';
 
-const Player = ({ activeStation, togglePauseIcon, isPaused, getTrackInfo, trackInfo }) => {
+const Player = ({ activeStation, togglePauseIcon, isPaused, trackInfo }) => {
 	return (
 		<Fragment>
 			<audio src={`http://air.radiorecord.ru:805/${activeStation.prefix || 'rr'}_320`} id='audio' />
@@ -29,7 +29,6 @@ Player.propTypes = {
 	activeStation: PropTypes.object,
 	togglePauseIcon: PropTypes.func,
 	isPaused: PropTypes.bool,
-	getTrackInfo: PropTypes.func,
 	trackInfo: PropTypes.object
 };
 
@@ -37,7 +36,6 @@ Player.defaultProps = {
 	activeStation: {},
 	togglePauseIcon: () => {},
 	isPaused: true,
-	getTrackInfo: () => {},
 	trackInfo: {}
 };
 

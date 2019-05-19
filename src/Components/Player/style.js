@@ -11,7 +11,7 @@ const rotate = keyframes`
 `;
 
 export const PlayerContainer = styled.div `
-	width: 60%;
+	width: 600px;
 	height: 60px;
 	display: flex;
 	flex-flow: row;

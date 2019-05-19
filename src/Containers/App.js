@@ -18,10 +18,8 @@ const App = () => {
 	const { activeStation, isPaused, trackInfo } = state;
 
 	useEffect(() => {
-		if (!isPaused) {
-			document.getElementById('audio').play();
-		}
-	}, [isPaused]);
+		document.getElementById('audio').play();
+	}, [activeStation]);
 	
 	// set current playing radiostation to state, for hightlighting ACTIVE station by another color 
 	const setActiveRadiostation = station => {

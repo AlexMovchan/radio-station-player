@@ -50,5 +50,8 @@ export const TrackName = styled.div `
     font-size: ${props => props.isActive ? '16px' : '16px'};
     transition: all 1s;
     text-shadow: 1px 1px 2px white;
+    padding: 10px;
+    width: 100%;
+    background: #f7f7f7;
 `;
 

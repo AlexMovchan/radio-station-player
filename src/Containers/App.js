@@ -67,7 +67,7 @@ const App = () => {
 	return (
 		<div className='App'>
 			<Header>
-				<Player activeStation={activeStation} isPaused={isPaused} togglePauseIcon={togglePauseIcon} getTrackInfo={getTrackInfo} trackInfo={trackInfo} />
+				<Player activeStation={activeStation} isPaused={isPaused} togglePauseIcon={togglePauseIcon} trackInfo={trackInfo} />
 			</Header>
 			<Stations stations={stations} activeStation={activeStation} setActiveRadiostation={setActiveRadiostation} />
 		</div>

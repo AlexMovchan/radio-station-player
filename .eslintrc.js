@@ -16,17 +16,16 @@ module.exports = {
         "sourceType": "module"
     },
     "plugins": [
-        "react"
+        "react",
+        "react-hooks"
     ],
     "rules": {
-        "indent": [
-            "error",
-            "tab"
-        ],
         // "linebreak-style": [
         //     "error",
         //     "windows"
         // ],
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "warn",
         "quotes": [
             "error",
             "single"

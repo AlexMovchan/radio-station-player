@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import stations from '../stations';
 import Stations from '../Components/Stations/Stations';
 import Player from '../Components/Player/Player';
-import { API_URL } from '../config';
 import { Header } from './style';
 
 
-let interval = null;
 const initialState = {
 	activeStation: {},
 	isPaused: true,
@@ -14,60 +12,34 @@ const initialState = {
 };
 
 const App = () => {
+	let player = useRef();
 	const [state, changeState] = useState(initialState);
-	const { activeStation, isPaused, trackInfo } = state;
+	const { activeStation, isPaused } = state;
 
 	useEffect(() => {
-		document.getElementById('audio').play();
+		player.current.play();
 	}, [activeStation]);
 	
 	// set current playing radiostation to state, for hightlighting ACTIVE station by another color 
 	const setActiveRadiostation = station => {
-		clearInterval(interval);
 		changeState(prevState => ({ ...prevState, activeStation: station, isPaused: false }));
-		interval = setInterval(getTrackInfo, 2000);
-
-		fetch('http://back.com', {
-			method: 'post',
-			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(station)
-		})
-			.then(res => res.json())
-			.catch(err => console.error(err));
 	};
 
 	// toggle icon on player and set the music play/pause
 	const togglePauseIcon = () => {
-		let player = document.getElementById('audio');
-		if (!player.paused) {
-			player.pause();
+		if (!player.current.paused) {
+			player.current.pause();
 			changeState(prevState => ({ ...prevState, isPaused: true }));
 		} else {
-			player.play();
+			player.current.play();
 			changeState(prevState => ({ ...prevState, isPaused: false }));
 		}
 	};
 
-	// set request to API for track information (author, trackname, download link etc...)
-	const getTrackInfo = () => {
-		if (!activeStation.prefix) {
-			return new Error('No active stations!');
-		}
-		const validUrl = `${API_URL}xml/${activeStation.prefix}_online_v8.txt`;
-		fetch(validUrl)
-			.then(res => res.json())
-			.then(data => changeState(prevState => ({ ...prevState, trackInfo: data })))
-			.catch(err => console.error(err));
-	};
-
-
 	return (
 		<div className='App'>
 			<Header>
-				<Player activeStation={activeStation} isPaused={isPaused} togglePauseIcon={togglePauseIcon} trackInfo={trackInfo} />
+				<Player activeStation={activeStation} isPaused={isPaused} togglePauseIcon={togglePauseIcon} player={player} />
 			</Header>
 			<Stations stations={stations} activeStation={activeStation} setActiveRadiostation={setActiveRadiostation} />
 		</div>

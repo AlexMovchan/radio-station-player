@@ -10,7 +10,12 @@ import {
 const Stations = ({ stations, setActiveRadiostation, activeStation}) =>
 	<Container>
 		{stations.map(station => 
-			<StationCard isActive={activeStation.id === station.id} prefix={station.prefix} onClick={() => setActiveRadiostation(station)} key={station.id} >
+			<StationCard
+				isActive={activeStation.id === station.id}
+				prefix={station.prefix}
+				onClick={() => setActiveRadiostation(station)}
+				key={station.id}
+			>
 				<InfoContainer isActive={activeStation.id === station.id}>
 					<TrackName isActive={activeStation.id === station.id}>{station.name}</TrackName>
 				</InfoContainer>

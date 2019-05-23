@@ -1,47 +1,25 @@
-import React, { useState, useEffect, useRef } from 'react';
-import stations from '../stations';
+import React, { useRef, useReducer } from 'react';
 import Stations from '../Components/Stations/Stations';
 import Player from '../Components/Player/Player';
 import { Header } from './style';
-
-
-const initialState = {
-	activeStation: {},
-	isPaused: true,
-	trackInfo: {}
-};
+import reducer, { initialState, setPauseStatus, setActiveStation } from '../redux/playerData';
 
 const App = () => {
-	let player = useRef();
-	const [state, changeState] = useState(initialState);
-	const { activeStation, isPaused } = state;
+	const [{ activeStation }, dispatch] = useReducer(reducer, initialState);
+	const interval = useRef();
 
-	useEffect(() => {
-		player.current.play();
-	}, [activeStation]);
-	
-	// set current playing radiostation to state, for hightlighting ACTIVE station by another color 
 	const setActiveRadiostation = station => {
-		changeState(prevState => ({ ...prevState, activeStation: station, isPaused: false }));
-	};
-
-	// toggle icon on player and set the music play/pause
-	const togglePauseIcon = () => {
-		if (!player.current.paused) {
-			player.current.pause();
-			changeState(prevState => ({ ...prevState, isPaused: true }));
-		} else {
-			player.current.play();
-			changeState(prevState => ({ ...prevState, isPaused: false }));
-		}
+		clearInterval(interval);
+		dispatch(setPauseStatus(false));
+		dispatch(setActiveStation(station));
 	};
 
 	return (
 		<div className='App'>
 			<Header>
-				<Player activeStation={activeStation} isPaused={isPaused} togglePauseIcon={togglePauseIcon} player={player} />
+				<Player interval={interval} activeStation={activeStation} />
 			</Header>
-			<Stations stations={stations} activeStation={activeStation} setActiveRadiostation={setActiveRadiostation} />
+			<Stations interval={interval} setActiveRadiostation={setActiveRadiostation} activeStation={activeStation} />
 		</div>
 	);
 };

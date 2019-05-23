@@ -1,44 +1,51 @@
+import React, { Fragment, useEffect, useRef, useReducer } from 'react';
 import PropTypes from 'prop-types';
-import React, { Fragment, useEffect, useState, useRef } from 'react';
-import { API_URL } from '../../config';
+import axios from 'axios';
 import _ from 'lodash';
-
+import { API_URL } from '../../config';
+import reducer, { initialState, setPauseStatus, setData } from '../../redux/playerData';
 import { PlayerContainer, PlayBtn, TrackIcon, TrackInfo } from './style';
 
-const Player = props => {
-  const [trackInfo, setTrackInfo] = useState({});
-  const {
-    activeStation,
-    togglePauseIcon,
-    isPaused,
-    player
-  } = props;
-  const interval = useRef();
+const Player = ({ interval, activeStation }) => {
+  const [{ loading, trackInfo, isPaused }, dispatch] = useReducer(reducer, initialState);
+
   const trackInfoRef = useRef();
+  let player = useRef();
 
-	// set request to API for track information (author, trackname, download link etc...)
   useEffect(() => {
-    function getTrackInfo() {
-      if (!activeStation.prefix) {
-        return new Error('No active stations!');
-      }
-      const validUrl = `${API_URL}xml/${activeStation.prefix}_online_v8.txt`;
-      fetch(validUrl)
-        .then(res => res.json())
-        .then(data => {
-          if (!_.isEqual(data,  trackInfoRef.current)) {
-            trackInfoRef.current = data;
-            setTrackInfo(data);
-          }}
-        )
-        .catch(err => console.error(err));
-    }
+		isPaused ? player.current.pause() :	player.current.play();
+  }, [isPaused]);
+  
+  useEffect(() => {
+    player.current.play();
 
+    const getTrackInfo = async() => {
+      const validUrl = `${API_URL}xml/${activeStation.prefix}_online_v8.txt`;
+      try {
+        const result = await axios.get(validUrl);
+        if (!_.isEqual(result.data,  trackInfoRef.current)) {
+          trackInfoRef.current = result.data;
+          dispatch(setData(result.data));
+        }
+      } catch (err) {
+        console.error(err.error);
+      }
+    };
+
+    getTrackInfo();
     interval.current = setInterval(getTrackInfo, 3000);
 
-    return () => clearInterval(interval.current);
+    return () =>
+      clearInterval(interval.current);
+  }, [activeStation, interval]);
 
-  }, [activeStation]);
+	const togglePauseIcon = () => {
+		if (!player.current.paused) {
+			dispatch(setPauseStatus(true));
+		} else {
+			dispatch(setPauseStatus(false));
+		}
+	};
 
   return (
     <Fragment>
@@ -49,7 +56,7 @@ const Player = props => {
       />
       <PlayerContainer>
         {
-          trackInfo
+          trackInfo && !loading 
             ?
               (
                 <TrackInfo>
@@ -76,7 +83,7 @@ const Player = props => {
                   </div>
                 </TrackInfo>
               )
-            : ''
+            : 'Loading ...'
         }
         <PlayBtn isPaused={isPaused} onClick={togglePauseIcon} />
       </PlayerContainer>
@@ -86,18 +93,12 @@ const Player = props => {
 
 Player.propTypes = {
 	activeStation: PropTypes.object,
-	togglePauseIcon: PropTypes.func,
-	isPaused: PropTypes.bool,
-	trackInfo: PropTypes.object,
-	player: PropTypes.object
+  interval: PropTypes.object,
 };
 
 Player.defaultProps = {
-	activeStation: {},
-	togglePauseIcon: () => { },
-	isPaused: true,
-	trackInfo: {},
-	player: Node
+  activeStation: {},
+  interval: {},
 };
 
 export default Player;

@@ -27,6 +27,7 @@ export const PlayBtn = styled.div `
 	background-image: ${props => props.isPaused ? 'URL(./img/play.png)' : 'URL(./img/pause.png)'};
 	background-size: 100%;
 	background-position: center;
+	cursor: pointer;
 	/* animation: ${rotate} 5s linear infinite; */
 `;
 
@@ -34,7 +35,7 @@ export const TrackIcon = styled.div `
 	width: 50px;
 	height: 50px;
 	margin: 0 5px;
-	background-image: ${props => props.trackIcon ? `URL(${props.trackIcon})` : 'URL(./img/default-player-image.svg)'};
+	background-image: ${props => props.trackIcon ? `URL(${props.trackIcon})` : 'URL(./img/default-album-logo.png)'};
 	background-size: 90%;
 	background-position: center;
 	border: 1px solid white;

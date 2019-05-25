@@ -1,28 +1,60 @@
-import React from 'react';
+import React, { useReducer, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import stations from '../../stations';
 import {
-	Container,
-	StationCard,
-	TrackName,
-	InfoContainer
+	StyledContainer,
+  StyledFavorite,
+  Header
 } from './style';
+import reducer, { initialState, addToFavoriteList, removeFromFavoriteList } from '../../redux/stationReducer';
+import StationCard from '../StationCard/StationCard';
 
-const Stations = ({ setActiveRadiostation, activeStation }) =>
-  <Container>
-    {stations.map(station => 
-      <StationCard
-        isActive={activeStation.id === station.id}
-        prefix={station.prefix}
-        onClick={() => setActiveRadiostation(station)}
-        key={station.id}
-      >
-        <InfoContainer isActive={activeStation.id === station.id}>
-          <TrackName isActive={activeStation.id === station.id}>{station.name}</TrackName>
-        </InfoContainer>
-      </StationCard>
-    )}
-  </Container>;
+const Stations = ({ setActiveRadiostation, activeStation }) => {
+  const [{favoriteList}, dispatch] = useReducer(reducer, initialState);
+
+  return (
+    <Fragment>
+      <StyledContainer>
+        <Header>
+          <h2>Улюблені радіостанції</h2>
+          {Object.keys(favoriteList).length ? '' : <p>Додайте сюди ваші улюблені радіостанції</p>}
+        </Header>
+        <StyledFavorite>
+          {Object.keys(favoriteList).length
+            ? Object.keys(favoriteList).map(key => (
+              <StationCard
+                key={key}
+                station={favoriteList[key]}
+                activeStation={activeStation}
+                setActiveRadiostation={setActiveRadiostation}
+                favoriteManageFunction={(station) => dispatch(removeFromFavoriteList(station))}
+                favoriteActionName='remove'
+              />
+            ))
+            : ''
+          }
+        </StyledFavorite>
+      </StyledContainer>
+      
+      <StyledContainer>
+        { 
+          stations
+            .filter(station => !favoriteList[station.id])
+            .map(station =>
+              <StationCard
+                key={station.id}
+                station={station}
+                activeStation={activeStation}
+                setActiveRadiostation={setActiveRadiostation}
+                favoriteManageFunction={(station) => dispatch(addToFavoriteList(station))}
+                favoriteActionName='add'
+              />
+            )
+        }
+      </StyledContainer>
+    </Fragment>
+  );
+};
 
 Stations.propTypes = {
   activeStation: PropTypes.object,

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import _ from 'lodash';
 import { API_URL } from '../../config';
-import reducer, { initialState, setPauseStatus, setData } from '../../redux/playerData';
+import reducer, { initialState, setPauseStatus, setData } from '../../redux/playerReducer';
 import { PlayerContainer, PlayBtn, TrackIcon, TrackInfo } from './style';
 
 const Player = ({ interval, activeStation }) => {
@@ -64,7 +64,7 @@ const Player = ({ interval, activeStation }) => {
                   <div>
                     <div>
                       <a
-                        href={trackInfo.itunesURL}
+                        href={`https://www.google.com/search?q=${trackInfo.artist} - ${trackInfo.title} скачать`}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -72,13 +72,9 @@ const Player = ({ interval, activeStation }) => {
                       </a>
                     </div>
                     <div>
-                      <a
-                        href={trackInfo.itunesURL}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
+                      <span>
                         {trackInfo.title}
-                      </a>
+                      </span>
                     </div>
                   </div>
                 </TrackInfo>

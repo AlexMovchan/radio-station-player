@@ -2,7 +2,7 @@ import React, { useRef, useReducer } from 'react';
 import Stations from '../Components/Stations/Stations';
 import Player from '../Components/Player/Player';
 import { Header } from './style';
-import reducer, { initialState, setPauseStatus, setActiveStation } from '../redux/playerData';
+import reducer, { initialState, setPauseStatus, setActiveStation } from '../redux/playerReducer';
 
 const App = () => {
 	const [{ activeStation }, dispatch] = useReducer(reducer, initialState);

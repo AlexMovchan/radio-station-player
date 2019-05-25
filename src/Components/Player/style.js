@@ -46,8 +46,8 @@ export const TrackIcon = styled.div `
 export const TrackInfo = styled.div `
 	display: flex;
 
-	a {
-		color: white;
-		text-shadow: 1px 1px 1px black;
+	a, span {
+		color: #052633;
+    text-shadow: 1px 1px 1px red;
 	}
 `;

@@ -14,9 +14,11 @@ const reducer = (state, action) => {
       };
     }
     case 'removeFromFavoriteList': {
+      let clonedFavList = {...state.favoriteList};
+      delete clonedFavList[action.result.id]
       return {
         ...state,
-        favoriteList: delete(state.favoriteList[action.result.id])
+        favoriteList: clonedFavList
       };
     }
     default: 

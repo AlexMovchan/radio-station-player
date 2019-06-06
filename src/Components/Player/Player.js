@@ -13,7 +13,11 @@ const Player = ({ interval, activeStation }) => {
   let player = useRef();
 
   useEffect(() => {
-		isPaused ? player.current.pause() :	player.current.play();
+		if (isPaused) {
+      player.current.pause()
+    } else {
+      player.current.play();
+    }
   }, [isPaused]);
   
   useEffect(() => {

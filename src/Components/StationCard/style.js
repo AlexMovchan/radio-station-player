@@ -12,6 +12,7 @@ export const StyledStationCard = styled.div `
     cursor: pointer;
     border: 1px solid #e0e0e0;
     text-align: center;
+    box-shadow: 0 0 8px 1px #d6d6d6;
 
     &:hover {
         opacity: 0.6;
@@ -31,7 +32,6 @@ export const StyledInfoContainer = styled.div `
     align-items: flex-end;
     width: 100%;
     position: relative;
-    background: ${props => props.isActive ? '#d4ffc394' : 'transparent'};
     &::before {
         content: '😎';
         display: ${props => props.isActive ? 'block' : 'none'};
@@ -81,3 +81,18 @@ export const StyledManageFavoriteListIcon = styled.div `
     z-index: 1111;
 `;
 
+
+export const StyledVisualisationContainer = styled.div `
+    width: 130px;
+    height: 110px;
+    display: flex;
+    align-items: flex-end;
+	overflow: hidden;
+    position: absolute;
+    background: #bcbcbc;
+
+    .visualisation-column {
+        width: 26px;
+        transition: .2s;
+    }
+`

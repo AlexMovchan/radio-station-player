@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Visualizator from './Visualizator';
 import {
   StyledStationCard,
 	StyledTrackName,
   StyledInfoContainer,
   StyledManageFavoriteListIcon,
 } from './style.js';
+
 
 const StationCard = ({ station, activeStation, setActiveRadiostation, favoriteManageFunction, favoriteActionName }) =>
   <StyledStationCard
@@ -15,6 +17,7 @@ const StationCard = ({ station, activeStation, setActiveRadiostation, favoriteMa
     key={station.id}
   >
     <StyledInfoContainer isActive={activeStation.id === station.id}>
+      { activeStation.id === station.id && <Visualizator />}
       <StyledTrackName isActive={activeStation.id === station.id}>{station.name}</StyledTrackName>
     </StyledInfoContainer>
 

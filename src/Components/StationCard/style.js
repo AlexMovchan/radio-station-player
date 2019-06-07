@@ -5,12 +5,9 @@ export const StyledStationCard = styled.div `
     width: 130px;
     height: 130px;
     margin: 15px;
-    display: flex;
-    justify-content: center;
-    align-items: ${props => props.isActive ? 'center' : 'flex-end'};
-    background-image: ${props => `URL(./img/${props.prefix}.png)`};
+    background-image: ${props => `URL(./img/card-logo.png)`};
     background-position-x: center;
-    background-size: 80%;
+    background-size: 50%;
     background-repeat: no-repeat;
     cursor: pointer;
     border: 1px solid #e0e0e0;
@@ -21,14 +18,14 @@ export const StyledStationCard = styled.div `
     }
 
     @media (max-width: 600px) {
-        height: 40px;
+        height: 50px;
         margin: 10px;
         width: 150px;
     }
 `;
 
 export const StyledInfoContainer = styled.div `
-    height: 100%;
+    height: 110px;
     display: flex;
     justify-content: center;
     align-items: flex-end;
@@ -53,6 +50,7 @@ export const StyledInfoContainer = styled.div `
     @media (max-width: 600px) {
         align-items: center;
         background: #f7f7f7;
+        height: 30px;
     }
 `;
 
@@ -61,8 +59,10 @@ export const StyledTrackName = styled.div `
     font-size: ${props => props.isActive ? '16px' : '16px'};
     transition: all 1s;
     text-shadow: 1px 1px 2px white;
-    padding: 10px;
+    padding: 3px;
     width: 100%;
+    height: 18px;
+    overflow: hidden;    
     background: #f7f7f7;
 
     @media (max-width: 600px) {
@@ -71,34 +71,13 @@ export const StyledTrackName = styled.div `
 `;
 
 export const StyledManageFavoriteListIcon = styled.div `
-    position: absolute;
-    top: -15px;
-    right: -15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 14px;
-    width: 15px;
-    height: 15px;
+    width: 100%;
+    height: 20px;
     background-color: ${props => props.favoriteActionName === 'remove' ? '#f7a1a1' : '#c9ffc9'};
     z-index: 1111;
-
-    &::before {
-        content: ${props => props.favoriteActionName === 'remove' ? '"-"' : '"+"'};
-        width: 15px;
-        height: 15px;
-        
-        @media (max-width: 600px) {
-            width: 30px;
-            height: 40px;
-        }
-    }
-
-    @media (max-width: 600px) {
-        position: relative;
-        top: 1px;
-        right: 1px;
-        font-size: 30px;
-        width: 30px;
-        height: 40px;
-        border: 1px solid #e0e0e0;
-    }
 `;
 

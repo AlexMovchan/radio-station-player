@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import stations from '../../stations';
 import {
 	StyledContainer,
-  StyledHeader
+  StyledStationsList
 } from './style';
 import { addToFavoriteList } from '../../redux/reducers/favoriteList';
 import { setPauseStatus, setActiveStation } from '../../redux/reducers/track';
@@ -24,33 +24,28 @@ const Stations = ({ activeStation, favoriteList, interval }) => {
   return (
     <Fragment>
       <StyledContainer>
-        <StyledHeader>
-          <h2>Улюблені радіостанції</h2>
-          {Object.keys(favoriteList).length ? '' : <p>Додайте сюди ваші улюблені радіостанції</p>}
-        </StyledHeader>
-
         <FavoriteList
           favoriteList={favoriteList}
           activeStation={activeStation}
           setActiveRadiostation={setActiveRadiostation}
         />
-      </StyledContainer>
       
-      <StyledContainer>
-        { 
-          stations
-            .filter(station => !favoriteList[station.id])
-            .map(station =>
-              <StationCard
-                key={station.id}
-                station={station}
-                activeStation={activeStation}
-                setActiveRadiostation={setActiveRadiostation}
-                favoriteManageFunction={(station) => dispatch(addToFavoriteList(station))}
-                favoriteActionName='add'
-              />
-            )
-        }
+        <StyledStationsList>
+          { 
+            stations
+              .filter(station => !favoriteList[station.id])
+              .map(station =>
+                <StationCard
+                  key={station.id}
+                  station={station}
+                  activeStation={activeStation}
+                  setActiveRadiostation={setActiveRadiostation}
+                  favoriteManageFunction={(station) => dispatch(addToFavoriteList(station))}
+                  favoriteActionName='add'
+                />
+              )
+          }
+        </StyledStationsList>
       </StyledContainer>
     </Fragment>
   );

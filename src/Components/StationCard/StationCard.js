@@ -14,16 +14,20 @@ const StationCard = ({ station, activeStation, setActiveRadiostation, favoriteMa
     onClick={() => setActiveRadiostation(station)}
     key={station.id}
   >
+    <StyledInfoContainer isActive={activeStation.id === station.id}>
+      <StyledTrackName isActive={activeStation.id === station.id}>{station.name}</StyledTrackName>
+    </StyledInfoContainer>
+
     <StyledManageFavoriteListIcon
       onClick={(e) => {
         e.stopPropagation();
         favoriteManageFunction(station);
       }}
       favoriteActionName={favoriteActionName}
-      tooltip={favoriteActionName} />
-    <StyledInfoContainer isActive={activeStation.id === station.id}>
-      <StyledTrackName isActive={activeStation.id === station.id}>{station.name}</StyledTrackName>
-    </StyledInfoContainer>
+      tooltip={favoriteActionName}
+    >
+      { favoriteActionName === 'remove' ? '-' : '+' } 
+    </StyledManageFavoriteListIcon>
   </StyledStationCard>;
 
 StationCard.propTypes = {

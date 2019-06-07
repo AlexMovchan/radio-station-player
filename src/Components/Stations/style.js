@@ -9,7 +9,7 @@ export const StyledContainer = styled.div `
     }
 `;
 
-export const Header = styled.header `
+export const StyledHeader = styled.header `
     padding: 15px;
 `;
 

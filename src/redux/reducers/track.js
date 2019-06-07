@@ -1,7 +1,14 @@
-export const initialState = {
+const SET_LOADING_FLAG = 'reducers/track/SET_LOADING_FLAG';
+const SET_PAUSE_STATUS = 'reducers/track/SET_PAUSE_STATUS';
+const SET_DATA = 'reducers/track/SET_DATA';
+const SET_ACTIVE_STATION = 'reducers/track/SET_ACTIVE_STATION';
+
+const initialState = {
   loading: false,
   activeStation: {
-    prefix: '1980'
+    prefix: '1980',
+    id: 33,
+    name: "Disco-80",
   },
   isPaused: false,
   trackInfo: {
@@ -11,22 +18,25 @@ export const initialState = {
     artist: '',
   }
 };
-
-const reducer = (state, action) => {
+  
+const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'setLoadingFlag': {
-      return { ...state, loading: action.result };
+    case SET_LOADING_FLAG: {
+      return { 
+          ...state,
+          loading: action.result
+      };
     }
-    case 'setPauseStatus': {
+    case SET_PAUSE_STATUS: {
       return { ...state, isPaused: action.result};
     }
-    case 'setData': {
+    case SET_DATA: {
       return { 
         ...state,
         trackInfo: action.result
       };
     }
-    case 'setActiveStation': {
+    case SET_ACTIVE_STATION: {
       return {
         ...state,
         activeStation: action.result
@@ -40,22 +50,22 @@ const reducer = (state, action) => {
 };
 
 export const setLoadingFlag = flag => ({
-  type: 'setLoadingFlag',
+  type: SET_LOADING_FLAG,
   result: flag
 });
 
 export const setPauseStatus = flag => ({
-  type: 'setPauseStatus',
+  type: SET_PAUSE_STATUS,
   result: flag
 });
 
 export const setData = data => ({
-  type: 'setData',
+  type: SET_DATA,
   result: data
 });
 
 export const setActiveStation = station => ({
-  type: 'setActiveStation',
+  type: SET_ACTIVE_STATION,
   result: station
 });
 

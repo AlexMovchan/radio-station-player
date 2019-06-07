@@ -1,14 +1,15 @@
-import React, { Fragment, useEffect, useRef, useReducer } from 'react';
+import React, { Fragment, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import _ from 'lodash';
 import { API_URL } from '../../config';
-import reducer, { initialState, setPauseStatus, setData } from '../../redux/playerReducer';
+import { setPauseStatus, setData } from '../../redux/reducers/track';
+import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { PlayerContainer, PlayBtn, TrackIcon, TrackInfo } from './style';
 
-const Player = ({ interval, activeStation }) => {
-  const [{ loading, trackInfo, isPaused }, dispatch] = useReducer(reducer, initialState);
-
+const Player = ({ interval, activeStation, loading, trackInfo, isPaused }) => {
+  const dispatch = useDispatch();
   const trackInfoRef = useRef();
   let player = useRef();
 
@@ -94,11 +95,24 @@ const Player = ({ interval, activeStation }) => {
 Player.propTypes = {
 	activeStation: PropTypes.object,
   interval: PropTypes.object,
+  isPaused: PropTypes.bool,
+  trackInfo: PropTypes.object,
+  loading: PropTypes.bool,
 };
 
 Player.defaultProps = {
   activeStation: {},
   interval: {},
+  isPaused: false,
+  trackInfo: {},
+  loading: false,
 };
 
-export default Player;
+const mapStateToProps = state => ({
+  activeStation: state.track.activeStation,
+  isPaused: state.track.isPaused,
+  trackInfo: state.track.trackInfo,
+  loading: state.track.loading
+})
+
+export default connect(mapStateToProps)(Player);

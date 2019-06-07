@@ -1,10 +1,13 @@
-export const initialState = {
+const ADD_TO_FAVORITE_LIST= 'reducers/favoriteList/ADD_TO_FAVORITE_LIST';
+const REMOVE_FROM_FAVORITE_LIST= 'reducers/favoriteList/REMOVE_FROM_FAVORITE_LIST';
+
+const initialState = {
   favoriteList: {}
 };
 
-const reducer = (state, action) => {
+const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'addToFavoriteList': {
+    case ADD_TO_FAVORITE_LIST: {
       return {
         ...state,
         favoriteList: {
@@ -13,26 +16,26 @@ const reducer = (state, action) => {
         }
       };
     }
-    case 'removeFromFavoriteList': {
-      let clonedFavList = {...state.favoriteList};
+    case REMOVE_FROM_FAVORITE_LIST: {
+      let clonedFavList = { ...state.favoriteList };
       delete clonedFavList[action.result.id]
       return {
         ...state,
         favoriteList: clonedFavList
       };
     }
-    default: 
+    default:
       return { ...state };
   }
 };
 
 export const addToFavoriteList = station => ({
-  type: 'addToFavoriteList',
+  type: ADD_TO_FAVORITE_LIST,
   result: station
 });
 
 export const removeFromFavoriteList = station => ({
-  type: 'removeFromFavoriteList',
+  type: REMOVE_FROM_FAVORITE_LIST,
   result: station
 });
 

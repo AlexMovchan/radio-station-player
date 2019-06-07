@@ -5,4 +5,5 @@ export const Header = styled.header `
     flex-flow: row wrap;
     justify-content: center;
     background: #c3c3c3;
+    height: 80px;
 `;

@@ -1,12 +1,12 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 export const StyledStationCard = styled.div `
     position: relative;
     width: 130px;
     height: 130px;
-    margin: 15px;
-    background-image: ${props => `URL(./img/card-logo.png)`};
-    background-position-x: center;
+    margin: 5px;
+    background-image: ${props => props.isActive ? 'none' : `URL(./img/card-logo.ico)`};
+    background-position: center;
     background-size: 50%;
     background-repeat: no-repeat;
     cursor: pointer;
@@ -29,9 +29,10 @@ export const StyledInfoContainer = styled.div `
     height: 110px;
     display: flex;
     justify-content: center;
-    align-items: flex-end;
+    align-items: flex-start;
     width: 100%;
     position: relative;
+
     &::before {
         content: '😎';
         display: ${props => props.isActive ? 'block' : 'none'};
@@ -40,21 +41,20 @@ export const StyledInfoContainer = styled.div `
         position: absolute;
         left: 5px;
         top: 5px;
-        
-        @media (max-width: 600px) {
-            content: '';
-        }
     }
-
  
     @media (max-width: 600px) {
         align-items: center;
         background: #f7f7f7;
         height: 30px;
+
+        &::before {
+            display: none;
+        }
     }
 `;
 
-export const StyledTrackName = styled.div `
+export const StyledStationName = styled.div `
     position: relative;
     font-size: ${props => props.isActive ? '16px' : '16px'};
     transition: all 1s;
@@ -63,7 +63,7 @@ export const StyledTrackName = styled.div `
     width: 100%;
     height: 18px;
     overflow: hidden;    
-    background: #f7f7f7;
+    background: #def9ff;
 
     @media (max-width: 600px) {
         padding: 0;
@@ -80,19 +80,3 @@ export const StyledManageFavoriteListIcon = styled.div `
     background-color: ${props => props.favoriteActionName === 'remove' ? '#f7a1a1' : '#c9ffc9'};
     z-index: 1111;
 `;
-
-
-export const StyledVisualisationContainer = styled.div `
-    width: 130px;
-    height: 110px;
-    display: flex;
-    align-items: flex-end;
-	overflow: hidden;
-    position: absolute;
-    background: #bcbcbc;
-
-    .visualisation-column {
-        width: 26px;
-        transition: .2s;
-    }
-`

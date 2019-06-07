@@ -6,6 +6,7 @@ import { API_URL } from '../../config';
 import { setPauseStatus, setData } from '../../redux/reducers/track';
 import { connect } from 'react-redux';
 import { useDispatch } from 'react-redux';
+import Equalizer from '../Visualizators/Equalizer';
 import { PlayerContainer, PlayBtn, TrackIcon, TrackInfo } from './style';
 
 const Player = ({ interval, activeStation, loading, trackInfo, isPaused }) => {
@@ -54,6 +55,10 @@ const Player = ({ interval, activeStation, loading, trackInfo, isPaused }) => {
 
   return (
     <Fragment>
+      <Equalizer
+        visualLinesCount={140}
+        heightRandomLimit={80}
+      />
       <audio
         ref={player}
         src={`https://air.radiorecord.ru:805/${activeStation.prefix || 'rr'}_320`}

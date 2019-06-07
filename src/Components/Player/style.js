@@ -1,15 +1,5 @@
 import styled, { keyframes } from 'styled-components';
 
-const rotate = keyframes`
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-`;
-
 export const PlayerContainer = styled.div `
 	width: 600px;
 	height: 60px;
@@ -17,8 +7,14 @@ export const PlayerContainer = styled.div `
 	flex-flow: row;
 	align-items: center;
 	justify-content: space-between;
-    padding: 10px 5px;
+	margin: 10px;
+	padding: 0 15px;
 	border-radius: 5px;
+	position: relative;
+	z-index: 1;
+	background: #def9ff;
+	border: 1px solid black;
+	box-shadow: 0 0 3px 2px #252525;
 	`;
 
 export const PlayBtn = styled.div `
@@ -28,7 +24,6 @@ export const PlayBtn = styled.div `
 	background-size: 100%;
 	background-position: center;
 	cursor: pointer;
-	/* animation: ${rotate} 5s linear infinite; */
 `;
 
 export const TrackIcon = styled.div `
@@ -39,7 +34,7 @@ export const TrackIcon = styled.div `
 	background-size: 90%;
 	background-position: center;
 	border: 1px solid white;
-    background-repeat: no-repeat;
+	background-repeat: no-repeat;
 `;
 
 

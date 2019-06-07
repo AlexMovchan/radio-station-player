@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyledFavorite, StyledHeader, StyledFavoriteStationsList } from './style';
 import StationCard from '../StationCard/StationCard';
-import { removeFromFavoriteList } from '../../redux/reducers/favoriteList';
+import { removeFromFavoriteList, setFavoriteListFromLocalStorage } from '../../redux/reducers/favoriteList';
 import { useDispatch } from 'react-redux';
 
 const FavoriteList = ({ favoriteList, activeStation, setActiveRadiostation }) => {
   const dispatch = useDispatch();
+  useEffect(() => {
+    const favoriteListFromStorage = window.localStorage.getItem('favoriteList');
+    if (favoriteListFromStorage) {
+      dispatch(setFavoriteListFromLocalStorage(JSON.parse(favoriteListFromStorage).favoriteList))
+    }
+  }, [])
   return (
     <StyledFavorite>
       <StyledHeader>

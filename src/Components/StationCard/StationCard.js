@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Equalizer from '../Visualizators/Equalizer';
 import RotateAnimation from '../Visualizators/RotateAnimation';
 import {
   StyledStationCard,
@@ -18,7 +17,6 @@ const StationCard = ({ station, activeStation, setActiveRadiostation, favoriteMa
     key={station.id}
   >
     <StyledInfoContainer isActive={activeStation.id === station.id}>
-      {/* { activeStation.id === station.id && <Equalizer heightRandomLimit={90} />} */}
       { activeStation.id === station.id && <RotateAnimation /> }
       <StyledStationName isActive={activeStation.id === station.id}>{station.name}</StyledStationName>
     </StyledInfoContainer>

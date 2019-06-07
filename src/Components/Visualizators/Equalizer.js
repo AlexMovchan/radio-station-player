@@ -23,6 +23,7 @@ const Equalizer = ({ isPaused, visualLinesCount = 9, heightRandomLimit = 90 }) =
     }
 
     const changedStyleArray = visualizatorCollection.map(item => ({
+      id: item.id,
       height: `${isResetHeight ? 0 : getRandomHeight()}px`,
       backgroundColor: getRandomColor(),
     }))

@@ -35,4 +35,12 @@ export const StyledRotateContainer = styled.div `
     background-repeat: no-repeat;
     background-position: center;
     animation:  ${rotate} 5s linear infinite;
+
+    @media (max-width: 600px) {
+      z-index: 1;
+      width: 20px;
+      height: 20px;
+      margin: 0px -60px;
+      background-size: 20px;
+    }
 `

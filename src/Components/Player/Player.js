@@ -7,7 +7,7 @@ import { setPauseStatus, setData } from '../../redux/reducers/track';
 import { connect } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import Equalizer from '../Visualizators/Equalizer';
-import { PlayerContainer, PlayBtn, TrackIcon, TrackInfo, StyledControls, InputRange } from './style';
+import { PlayerContainer, PlayBtn, TrackIcon, TrackInfo, StyledControls, InputRange, StyledHeader } from './style';
 
 const Player = ({ interval, activeStation, loading, trackInfo, isPaused }) => {
   const [value, changeVolumeValue] = useState(100);
@@ -63,7 +63,7 @@ const Player = ({ interval, activeStation, loading, trackInfo, isPaused }) => {
   }
 
   return (
-    <Fragment>
+    <StyledHeader>
       <audio
         ref={player}
         volume=''
@@ -107,7 +107,7 @@ const Player = ({ interval, activeStation, loading, trackInfo, isPaused }) => {
           <PlayBtn isPaused={isPaused} onClick={togglePauseIcon} />
         </StyledControls>
       </PlayerContainer>
-    </Fragment>
+    </StyledHeader>
   );
 };
 

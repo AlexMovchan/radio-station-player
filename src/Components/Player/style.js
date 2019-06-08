@@ -1,5 +1,18 @@
 import styled from 'styled-components';
 
+export const StyledHeader = styled.header `
+	width: 100%;
+	height: 80px;
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: center;
+	background: #c3c3c3;
+
+	@media (max-width: 600px) {
+		height: 100px;
+	}
+`;
+
 export const PlayerContainer = styled.div `
 	width: 600px;
 	height: 60px;
@@ -15,6 +28,11 @@ export const PlayerContainer = styled.div `
 	background: #def9ff;
 	border: 1px solid black;
 	box-shadow: 0 0 3px 2px #252525;
+
+	@media (max-width: 600px) {
+		height: 80px;
+		width: 300px;
+	}
 	`;
 
 export const PlayBtn = styled.div `
@@ -35,6 +53,10 @@ export const StyledControls = styled.div `
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+
+	@media (max-width: 600px) {
+		width: 140px;
+	}
 `;
 
 export const TrackIcon = styled.div `
@@ -46,6 +68,11 @@ export const TrackIcon = styled.div `
 	background-position: center;
 	border: 1px solid white;
 	background-repeat: no-repeat;
+
+	@media (max-width: 600px) {
+		height: 25px;
+		width: 25px;
+	}
 `;
 
 
@@ -55,6 +82,11 @@ export const TrackInfo = styled.div `
 	a, span {
 		color: #052633;
     text-shadow: 1px 1px 1px red;
+	}
+
+	@media (max-width: 600px) {
+		font-size: 12px;
+		flex-flow: column;
 	}
 `;
 
@@ -71,6 +103,10 @@ export const InputRange = styled.input.attrs({ type: 'range', value: props => pr
   box-shadow: inset 0 1px 0 0 #0d0e0f, inset 0 -1px 0 0 #3a3d42;
   -webkit-box-shadow: inset 0 1px 0 0 #0d0e0f, inset 0 -1px 0 0 #3a3d42;
   outline: none; /* no focus outline */
+
+	@media (max-width: 600px) {
+		width: 80px;
+	}
 
 	&::-moz-range-track {
 		border: inherit;

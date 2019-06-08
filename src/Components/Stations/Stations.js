@@ -34,6 +34,7 @@ const Stations = ({ activeStation, favoriteList, interval }) => {
           { 
             stations
               .filter(station => !favoriteList[station.id])
+              .reverse()
               .map(station =>
                 <StationCard
                   key={station.id}

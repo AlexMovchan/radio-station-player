@@ -26,9 +26,8 @@ const Player = ({ interval, activeStation, loading, trackInfo, isPaused }) => {
     player.current.play();
 
     const getTrackInfo = async() => {
-      const validUrl = `${API_URL}xml/${activeStation.prefix}_online_v8.txt`;
       try {
-        const result = await axios.get(validUrl);
+        const result = await axios.get(activeStation.textUrl);
         if (!_.isEqual(result.data,  trackInfoRef.current)) {
           trackInfoRef.current = result.data;
           dispatch(setData(result.data));
@@ -61,7 +60,8 @@ const Player = ({ interval, activeStation, loading, trackInfo, isPaused }) => {
       />
       <audio
         ref={player}
-        src={`https://air.radiorecord.ru:805/${activeStation.prefix || 'rr'}_320`}
+        // src={`https://air.radiorecord.ru:805/${activeStation.prefix || 'rr'}_320`}
+        src={activeStation.url}
         id="audio"
       />
       <PlayerContainer>

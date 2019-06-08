@@ -9,6 +9,8 @@ const initialState = {
     prefix: '1980',
     id: 33,
     name: "Disco-80",
+    url: 'https://air.radiorecord.ru:805/1980_320',
+    textUrl: 'https://www.radiorecord.ru/xml/1980_online_v8.txt'
   },
   isPaused: false,
   trackInfo: {

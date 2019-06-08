@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useRef } from 'react';
+import React, { Fragment, useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import _ from 'lodash';
@@ -7,12 +7,17 @@ import { setPauseStatus, setData } from '../../redux/reducers/track';
 import { connect } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import Equalizer from '../Visualizators/Equalizer';
-import { PlayerContainer, PlayBtn, TrackIcon, TrackInfo } from './style';
+import { PlayerContainer, PlayBtn, TrackIcon, TrackInfo, StyledControls, InputRange } from './style';
 
 const Player = ({ interval, activeStation, loading, trackInfo, isPaused }) => {
+  const [value, changeVolumeValue] = useState(100);
   const dispatch = useDispatch();
   const trackInfoRef = useRef();
   let player = useRef();
+
+  useEffect(() => {
+    player.current.volume = value/100
+  }, [value])
 
   useEffect(() => {
 		if (isPaused) {
@@ -33,7 +38,7 @@ const Player = ({ interval, activeStation, loading, trackInfo, isPaused }) => {
           dispatch(setData(result.data));
         }
       } catch (err) {
-        console.error(err.error);
+        console.error(err);
       }
     };
 
@@ -50,19 +55,24 @@ const Player = ({ interval, activeStation, loading, trackInfo, isPaused }) => {
 		} else {
 			dispatch(setPauseStatus(false));
 		}
-	};
+  };
+  
+  const changeVolume = (event) => {
+    // console.log()
+    player.current.volume = event.target.value/100
+  }
 
   return (
     <Fragment>
+      <audio
+        ref={player}
+        volume=''
+        src={activeStation.url}
+        id="audio"
+      />
       <Equalizer
         visualLinesCount={140}
         heightRandomLimit={80}
-      />
-      <audio
-        ref={player}
-        // src={`https://air.radiorecord.ru:805/${activeStation.prefix || 'rr'}_320`}
-        src={activeStation.url}
-        id="audio"
       />
       <PlayerContainer>
         {
@@ -91,7 +101,11 @@ const Player = ({ interval, activeStation, loading, trackInfo, isPaused }) => {
               )
             : 'Loading ...'
         }
-        <PlayBtn isPaused={isPaused} onClick={togglePauseIcon} />
+        <StyledControls>
+          {/* <input type="range" name="points" value={value} min="0" max="100" onChange={(e) => changeVolumeValue(e.target.value)} /> */}
+          <InputRange value={value} onChange={(e) => changeVolumeValue(e.target.value)} />
+          <PlayBtn isPaused={isPaused} onClick={togglePauseIcon} />
+        </StyledControls>
       </PlayerContainer>
     </Fragment>
   );

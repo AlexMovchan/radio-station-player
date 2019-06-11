@@ -1,32 +1,23 @@
-import React, { Fragment, useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import _ from 'lodash';
-import { API_URL } from '../../config';
-import { setPauseStatus, setData } from '../../redux/reducers/track';
+import { setData } from '../../redux/reducers/track';
+import { togglePlayAction } from '../../helpers/togglePlayAction';
 import { connect } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import Equalizer from '../Visualizators/Equalizer';
 import { PlayerContainer, PlayBtn, TrackIcon, TrackInfo, StyledControls, InputRange, StyledHeader } from './style';
 
-const Player = ({ interval, activeStation, loading, trackInfo, isPaused }) => {
+const Player = ({ interval, activeStation, loading, trackInfo, isPaused, player }) => {
   const [value, changeVolumeValue] = useState(100);
   const dispatch = useDispatch();
   const trackInfoRef = useRef();
-  let player = useRef();
 
   useEffect(() => {
     player.current.volume = value/100
   }, [value])
 
-  useEffect(() => {
-		if (isPaused) {
-      player.current.pause()
-    } else {
-      player.current.play();
-    }
-  }, [isPaused]);
-  
   useEffect(() => {
     player.current.play();
 
@@ -48,19 +39,6 @@ const Player = ({ interval, activeStation, loading, trackInfo, isPaused }) => {
     return () =>
       clearInterval(interval.current);
   }, [activeStation, interval]);
-
-	const togglePauseIcon = () => {
-		if (!player.current.paused) {
-			dispatch(setPauseStatus(true));
-		} else {
-			dispatch(setPauseStatus(false));
-		}
-  };
-  
-  const changeVolume = (event) => {
-    // console.log()
-    player.current.volume = event.target.value/100
-  }
 
   return (
     <StyledHeader>
@@ -102,9 +80,8 @@ const Player = ({ interval, activeStation, loading, trackInfo, isPaused }) => {
             : 'Loading ...'
         }
         <StyledControls>
-          {/* <input type="range" name="points" value={value} min="0" max="100" onChange={(e) => changeVolumeValue(e.target.value)} /> */}
           <InputRange value={value} onChange={(e) => changeVolumeValue(e.target.value)} />
-          <PlayBtn isPaused={isPaused} onClick={togglePauseIcon} />
+          <PlayBtn isPaused={isPaused} onClick={() => togglePlayAction(isPaused, player, dispatch)} />
         </StyledControls>
       </PlayerContainer>
     </StyledHeader>

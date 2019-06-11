@@ -7,6 +7,7 @@ import store from '../redux/store';
 
 const App = () => {
 	const interval = useRef();
+	const player = useRef();
 
 	return (
 		<Provider store={store}>
@@ -16,8 +17,8 @@ const App = () => {
 			</Helmet>
 
 			<div className='App'>
-				<Player interval={interval} />
-				<Stations interval={interval} />
+				<Player interval={interval} player={player} />
+				<Stations interval={interval} player={player} />
 			</div>
 		</Provider>
 	);

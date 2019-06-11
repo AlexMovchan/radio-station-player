@@ -15,8 +15,8 @@ const stations = [
 		id: 2,
 		prefix: 'chil',
 		name: 'Chill-out',
-		url: recordStreamUrl('brks'),
-		textUrl: recordText('brks')
+		url: recordStreamUrl('chil'),
+		textUrl: recordText('chil')
 	},
 	{
 		id: 3,

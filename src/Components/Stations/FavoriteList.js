@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
-import { StyledFavorite, StyledHeader, StyledFavoriteStationsList } from './style';
 import StationCard from '../StationCard/StationCard';
 import { removeFromFavoriteList, setFavoriteListFromLocalStorage } from '../../redux/reducers/favoriteList';
 import { useDispatch } from 'react-redux';
 
 const FavoriteList = ({ favoriteList, activeStation, setActiveRadiostation }) => {
+  require('./FavoriteList.scss')
   const dispatch = useDispatch();
   useEffect(() => {
     const favoriteListFromStorage = window.localStorage.getItem('favoriteList');
@@ -13,13 +13,8 @@ const FavoriteList = ({ favoriteList, activeStation, setActiveRadiostation }) =>
     }
   }, [])
   return (
-    <StyledFavorite>
-      <StyledHeader>
-        <h2>Улюблені радіостанції <span role="img" aria-label='emojii'>💣</span></h2>
-        {Object.keys(favoriteList).length ? '' : <p>Додайте сюди ваші улюблені радіостанції</p>}
-      </StyledHeader>
-
-      <StyledFavoriteStationsList>
+    <div className='favirite-list-container' data-simplebar>
+      <div className='favorite-stations-list'>
         {
           Object.keys(favoriteList).length
             ?
@@ -27,7 +22,7 @@ const FavoriteList = ({ favoriteList, activeStation, setActiveRadiostation }) =>
                 <StationCard
                   key={key}
                   station={favoriteList[key]}
-                  activeStation={activeStation}
+                  isActive={activeStation.id === favoriteList[key].id}
                   setActiveRadiostation={setActiveRadiostation}
                   favoriteManageFunction={(station) => dispatch(removeFromFavoriteList(station))}
                   favoriteActionName='remove'
@@ -35,8 +30,8 @@ const FavoriteList = ({ favoriteList, activeStation, setActiveRadiostation }) =>
               ))
             : ''
         }
-      </StyledFavoriteStationsList>
-    </StyledFavorite>
+      </div>
+    </div>
   )
 }
 

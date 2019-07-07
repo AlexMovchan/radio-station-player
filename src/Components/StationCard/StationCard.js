@@ -1,41 +1,43 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import RotateAnimation from '../Visualizators/RotateAnimation';
-import {
-  StyledStationCard,
-	StyledStationName,
-  StyledInfoContainer,
-  StyledManageFavoriteListIcon,
-} from './style.js';
 
+const StationCard = ({ station, isActive, setActiveRadiostation, favoriteManageFunction, favoriteActionName }) => {
+  require('./StationCard.scss')
 
-const StationCard = ({ station, activeStation, setActiveRadiostation, favoriteManageFunction, favoriteActionName }) =>
-  <StyledStationCard
-    isActive={activeStation.id === station.id}
-    prefix={station.prefix}
-    onClick={() => setActiveRadiostation(station)}
-    key={station.id}
-  >
-    <StyledInfoContainer isActive={activeStation.id === station.id}>
-      { activeStation.id === station.id && <RotateAnimation /> }
-      <StyledStationName isActive={activeStation.id === station.id}>{station.name}</StyledStationName>
-    </StyledInfoContainer>
-
-    <StyledManageFavoriteListIcon
-      onClick={(e) => {
-        e.stopPropagation();
-        favoriteManageFunction(station);
-      }}
-      favoriteActionName={favoriteActionName}
-      tooltip={favoriteActionName}
+  return (
+    <div
+      className='station-card'
+      onClick={() => setActiveRadiostation(station)}
     >
-      { favoriteActionName === 'remove' ? '-' : '+' } 
-    </StyledManageFavoriteListIcon>
-  </StyledStationCard>;
+      <div className='background-icon'>
+        <div class={`triangle centered ${isActive ? 'animated' : ''}`} />
+        <div class={`innerCircle centered ${isActive ? 'animated' : ''}`} />
+        <div class={`outerCircle centered ${isActive ? 'animated' : ''}`} />
+      </div>
+
+      <div className='card-title' >
+        <div className='title'>{station.name}</div>
+      </div>
+
+      <div
+        className='favorite-button-action'
+        onClick={(e) => {
+          e.stopPropagation();
+          favoriteManageFunction(station);
+        }}
+        tooltip={favoriteActionName}
+      >
+        <span className={`${favoriteActionName === 'remove' ? 'remove' : 'add'}`}>
+          { favoriteActionName === 'remove' ? '-' : '+' } 
+        </span>
+      </div>
+    </div>
+  )
+}
 
 StationCard.propTypes = {
   station: PropTypes.object,
-  activeStation: PropTypes.object,
+  isActive: PropTypes.bool,
   setActiveRadiostation: PropTypes.func,
   favoriteManageFunction: PropTypes.func,
   favoriteActionName: PropTypes.string,
@@ -43,7 +45,7 @@ StationCard.propTypes = {
 
 StationCard.defaultProps = {
   station: {},
-  activeStation: {},
+  isActive: false,
   setActiveRadiostation: () => {},
   favoriteManageFunction: () => {},
   favoriteActionName: '',

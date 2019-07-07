@@ -1,0 +1,14 @@
+.equalizer-container {
+    width: 100%;
+    height: inherit;
+    display: flex;
+    align-items: flex-end;
+	overflow: hidden;
+    position: absolute;
+    background: transparent;
+
+    .visualisation-column {
+        width: 100%;
+        transition: .2s;
+    }
+}

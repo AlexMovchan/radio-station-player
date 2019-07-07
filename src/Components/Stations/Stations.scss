@@ -1,0 +1,20 @@
+.stations-container {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 5px;
+
+  .stations-list {
+    display: flex;
+    flex-flow: row wrap;
+    width: 80%;
+
+    @media (max-width: 600px) {
+      height: 90vh;
+      overflow-y: scroll;
+      justify-content: space-around;
+      width: 50%;
+    }
+  }
+}

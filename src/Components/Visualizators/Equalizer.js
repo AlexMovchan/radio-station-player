@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { StyledEqualizerContainer } from './style';
 import getRandomColor from '../../helpers/getRandomColor';
 
 const initialState = (visualLinesCount, heightRandomLimit) => (
@@ -13,7 +12,7 @@ const initialState = (visualLinesCount, heightRandomLimit) => (
 )
 
 const Equalizer = ({ isPaused, visualLinesCount = 9, heightRandomLimit = 90 }) => {
-  // const [visualizatorCollection] = useState(() => document.getElementsByClassName('visualisation-column'))
+  require('./Equalizer.scss')
   const [visualizatorCollection, changeCollection] = useState(() => initialState(visualLinesCount, heightRandomLimit))
   let interval = useRef(null);
 
@@ -46,7 +45,7 @@ const Equalizer = ({ isPaused, visualLinesCount = 9, heightRandomLimit = 90 }) =
   }, [isPaused])
 
   return (
-    <StyledEqualizerContainer>
+    <div className='equalizer-container'>
       {visualizatorCollection.map(item => (
         <div
           key={item.id}
@@ -54,7 +53,7 @@ const Equalizer = ({ isPaused, visualLinesCount = 9, heightRandomLimit = 90 }) =
           style={{ height: item.height, backgroundColor: item.backgroundColor }}
         />
       ))}
-    </StyledEqualizerContainer>
+    </div>
   )
 };
 

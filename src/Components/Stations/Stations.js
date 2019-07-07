@@ -1,10 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import stations from '../../stations';
-import {
-	StyledContainer,
-  StyledStationsList
-} from './style';
 import { addToFavoriteList } from '../../redux/reducers/favoriteList';
 import { setPauseStatus, setActiveStation } from '../../redux/reducers/track';
 import { useDispatch } from 'react-redux';
@@ -13,7 +9,8 @@ import StationCard from '../StationCard/StationCard';
 import FavoriteList from './FavoriteList';
 import { togglePlayAction } from '../../helpers/togglePlayAction';
 
-const Stations = ({ isPaused, activeStation, favoriteList, interval, player }) => {
+const Stations = ({ isPaused, activeStation, favoriteList, interval }) => {
+  require('./Stations.scss')
   const dispatch = useDispatch();
 
   const setActiveRadiostation = (station) => {
@@ -21,7 +18,7 @@ const Stations = ({ isPaused, activeStation, favoriteList, interval, player }) =
     dispatch(setPauseStatus(false));
     
     if (activeStation.id === station.id) {
-      togglePlayAction(isPaused, player, dispatch)
+      togglePlayAction(isPaused, dispatch)
     } else {
       dispatch(setPauseStatus(false));
     }
@@ -30,14 +27,14 @@ const Stations = ({ isPaused, activeStation, favoriteList, interval, player }) =
 
   return (
     <Fragment>
-      <StyledContainer>
+      <div className='stations-container'>
         <FavoriteList
           favoriteList={favoriteList}
           activeStation={activeStation}
           setActiveRadiostation={setActiveRadiostation}
         />
       
-        <StyledStationsList>
+        <div className='stations-list'>
           { 
             stations
               .filter(station => !favoriteList[station.id])
@@ -45,6 +42,7 @@ const Stations = ({ isPaused, activeStation, favoriteList, interval, player }) =
               .map(station =>
                 <StationCard
                   key={station.id}
+                  isActive={station.id === activeStation.id}
                   station={station}
                   activeStation={activeStation}
                   setActiveRadiostation={setActiveRadiostation}
@@ -53,8 +51,8 @@ const Stations = ({ isPaused, activeStation, favoriteList, interval, player }) =
                 />
               )
           }
-        </StyledStationsList>
-      </StyledContainer>
+        </div>
+      </div>
     </Fragment>
   );
 };

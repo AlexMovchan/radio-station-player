@@ -7,20 +7,15 @@ import { togglePlayAction } from '../../helpers/togglePlayAction';
 import { connect } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import Equalizer from '../Visualizators/Equalizer';
-import { PlayerContainer, PlayBtn, TrackIcon, TrackInfo, StyledControls, InputRange, StyledHeader } from './style';
+import ReactPlayer from 'react-player'
 
-const Player = ({ interval, activeStation, loading, trackInfo, isPaused, player }) => {
+const Player = ({ interval, activeStation, loading, trackInfo, isPaused }) => {
+  require('./Player.scss')
   const [value, changeVolumeValue] = useState(100);
   const dispatch = useDispatch();
   const trackInfoRef = useRef();
 
   useEffect(() => {
-    player.current.volume = value/100
-  }, [value])
-
-  useEffect(() => {
-    player.current.play();
-
     const getTrackInfo = async() => {
       try {
         const result = await axios.get(activeStation.textUrl);
@@ -41,24 +36,24 @@ const Player = ({ interval, activeStation, loading, trackInfo, isPaused, player 
   }, [activeStation, interval]);
 
   return (
-    <StyledHeader>
-      <audio
-        ref={player}
-        volume=''
-        src={activeStation.url}
-        id="audio"
+    <div className="header">
+      <ReactPlayer
+        playing={!isPaused}
+        url={activeStation.url}
+        volume={value/100}
+        width={0}
       />
       <Equalizer
         visualLinesCount={140}
         heightRandomLimit={80}
       />
-      <PlayerContainer>
+      <div className='player-container'>
         {
           trackInfo && !loading 
             ?
               (
-                <TrackInfo>
-                  <TrackIcon trackIcon={trackInfo.image600} />
+                <div className='track-info-block'>
+                  <div className='track-icon' style={{ backgroundImage: trackInfo.image600 ? `URL(${trackInfo.image600})` : 'URL(./img/default-album-logo.png)' }} />
                   <div>
                     <div>
                       <a
@@ -70,21 +65,25 @@ const Player = ({ interval, activeStation, loading, trackInfo, isPaused, player 
                       </a>
                     </div>
                     <div>
-                      <span>
+                      <a
+                        href={`https://www.google.com/search?q=${trackInfo.artist} - ${trackInfo.title} скачать`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
                         {trackInfo.title}
-                      </span>
+                      </a>
                     </div>
                   </div>
-                </TrackInfo>
+                </div>
               )
             : 'Loading ...'
         }
-        <StyledControls>
-          <InputRange value={value} onChange={(e) => changeVolumeValue(e.target.value)} />
-          <PlayBtn isPaused={isPaused} onClick={() => togglePlayAction(isPaused, player, dispatch)} />
-        </StyledControls>
-      </PlayerContainer>
-    </StyledHeader>
+        <div className='player-controls'>
+          <input className='volume-control' type='range' min='0' max='100' value={value} onChange={(e) => changeVolumeValue(e.target.value)} />
+          <div className='play-btn' onClick={() => togglePlayAction(isPaused, dispatch)} style={{ backgroundImage: isPaused ? 'URL(./img/play.png)' : 'URL(./img/pause.png)' }} />
+        </div>
+      </div>
+    </div>
   );
 };
 

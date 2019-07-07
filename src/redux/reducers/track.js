@@ -6,13 +6,13 @@ const SET_ACTIVE_STATION = 'reducers/track/SET_ACTIVE_STATION';
 const initialState = {
   loading: false,
   activeStation: {
-    prefix: '1980',
-    id: 33,
-    name: "Disco-80",
-    url: 'https://air.radiorecord.ru:805/1980_320',
-    textUrl: 'https://www.radiorecord.ru/xml/1980_online_v8.txt'
+    prefix: '',
+    id: 0,
+    name: "",
+    url: '',
+    textUrl: ''
   },
-  isPaused: false,
+  isPaused: true,
   trackInfo: {
     image600: '',
     itunesURL: '',

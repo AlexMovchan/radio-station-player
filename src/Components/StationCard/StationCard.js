@@ -6,13 +6,13 @@ const StationCard = ({ station, isActive, setActiveRadiostation, favoriteManageF
 
   return (
     <div
-      className='station-card'
+      className={`station-card ${isActive ? 'active' : ''}`}
       onClick={() => setActiveRadiostation(station)}
     >
       <div className='background-icon'>
-        <div class={`triangle centered ${isActive ? 'animated' : ''}`} />
-        <div class={`innerCircle centered ${isActive ? 'animated' : ''}`} />
-        <div class={`outerCircle centered ${isActive ? 'animated' : ''}`} />
+        <div className={`triangle centered ${isActive ? 'animated' : ''}`} />
+        <div className={`innerCircle centered ${isActive ? 'animated' : ''}`} />
+        <div className={`outerCircle centered ${isActive ? 'animated' : ''}`} />
       </div>
 
       <div className='card-title' >

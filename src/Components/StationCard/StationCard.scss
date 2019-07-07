@@ -44,9 +44,16 @@ $activeColor: #ff6200;
   }
 
   @media (max-width: 600px) {
-    height: 50px;
-    margin: 10px;
-    width: 150px;
+    height: 40px;
+    width: 100%;
+
+    &.active {
+      .card-title {
+        .title {
+          background: #ff6200;
+        }
+      }
+    }
   }
 
   .background-icon {
@@ -122,7 +129,7 @@ $activeColor: #ff6200;
     @media (max-width: 600px) {
       align-items: center;
       background: #f7f7f7;
-      height: 30px;
+      height: 40px;
 
       &::before {
         display: none;
@@ -142,7 +149,11 @@ $activeColor: #ff6200;
       background: #000000;
 
       @media (max-width: 600px) {
-        padding: 0;
+        // padding: 0;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        padding: 0 10px;
       }
     }
   }
@@ -156,6 +167,17 @@ $activeColor: #ff6200;
     height: 20px;
     position: relative;
     transition: .2s;
+
+    @media (max-width: 600px) {
+      position: absolute;
+      right: 0px;
+      top: 50%;
+      margin-top: -20px;
+      background: #adadad;
+      font-size: 18px;
+      width: 40px;
+      height: 40px;
+    }
     
     &:hover {
       background-color: #ff6200;

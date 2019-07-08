@@ -12,6 +12,7 @@ const App = () => {
 		<Provider store={store}>
 			<Helmet>
 				<title>Radio UA</title>
+				<link rel="shortcut icon" href="./img/favicon-16x16.png" type="image/gif" sizes="16x16"></link>
 				<meta name="description" content="Radio Station Streaming" />
 			</Helmet>
 

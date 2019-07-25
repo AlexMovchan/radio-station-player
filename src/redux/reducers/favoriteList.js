@@ -15,13 +15,13 @@ const reducer = (state = initialState, action) => {
           ...state.favoriteList,
           [action.result.id]: action.result
         }
-      }
+      };
       window.localStorage.setItem('favoriteList', JSON.stringify(mergedObj));
       return mergedObj;
     }
     case REMOVE_FROM_FAVORITE_LIST: {
       let clonedFavList = { ...state.favoriteList };
-      delete clonedFavList[action.result.id]
+      delete clonedFavList[action.result.id];
       window.localStorage.setItem('favoriteList', JSON.stringify(clonedFavList));
       return {
         ...state,
@@ -52,6 +52,6 @@ export const removeFromFavoriteList = station => ({
 export const setFavoriteListFromLocalStorage = favoriteList => ({
   type: SET_LIST_FROM_STORAGE,
   result: favoriteList
-})
+});
 
 export default reducer;

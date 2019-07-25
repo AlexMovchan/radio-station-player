@@ -20,19 +20,17 @@ module.exports = {
         "react-hooks"
     ],
     "rules": {
-        // "linebreak-style": [
-        //     "error",
-        //     "windows"
-        // ],
         "react-hooks/rules-of-hooks": "error",
         "react-hooks/exhaustive-deps": "warn",
         "quotes": [
             "error",
             "single"
         ],
+        "no-trailing-spaces": "error",
+        "no-console": ["error", { allow: ["warn", "error"] }],
         "semi": [
             "error",
             "always"
         ]
     }
-};
+}

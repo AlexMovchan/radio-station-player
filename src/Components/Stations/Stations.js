@@ -8,22 +8,22 @@ import { connect } from 'react-redux';
 import StationCard from '../StationCard/StationCard';
 import FavoriteList from './FavoriteList';
 import { togglePlayAction } from '../../helpers/togglePlayAction';
+import('./Stations.scss');
 
 const Stations = ({ isPaused, activeStation, favoriteList, interval }) => {
-  require('./Stations.scss')
   const dispatch = useDispatch();
 
   const setActiveRadiostation = (station) => {
     clearInterval(interval);
     dispatch(setPauseStatus(false));
-    
+
     if (activeStation.id === station.id) {
-      togglePlayAction(isPaused, dispatch)
+      togglePlayAction(isPaused, dispatch);
     } else {
       dispatch(setPauseStatus(false));
     }
 		dispatch(setActiveStation(station));
-  }
+  };
 
   return (
     <Fragment>
@@ -33,9 +33,9 @@ const Stations = ({ isPaused, activeStation, favoriteList, interval }) => {
           activeStation={activeStation}
           setActiveRadiostation={setActiveRadiostation}
         />
-      
+
         <div className='stations-list'>
-          { 
+          {
             stations
               .filter(station => !favoriteList[station.id])
               .reverse()
@@ -62,6 +62,7 @@ Stations.propTypes = {
   setActiveRadiostation: PropTypes.func,
   favoriteList: PropTypes.object,
   isPaused: PropTypes.bool,
+  interval: PropTypes.instanceOf(Element).isRequired
 };
 
 Stations.defaultProps = {
@@ -71,10 +72,10 @@ Stations.defaultProps = {
   isPaused: false
 };
 
-const mapStateToProps = state => ({ 
+const mapStateToProps = state => ({
   favoriteList: state.favoriteList.favoriteList,
   activeStation: state.track.activeStation,
   isPaused: state.track.isPaused,
-})
+});
 
 export default connect(mapStateToProps)(Stations);

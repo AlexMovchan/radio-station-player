@@ -8,7 +8,7 @@ const initialState = {
   activeStation: {
     prefix: '',
     id: 0,
-    name: "",
+    name: '',
     url: '',
     textUrl: ''
   },
@@ -20,11 +20,11 @@ const initialState = {
     artist: '',
   }
 };
-  
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_LOADING_FLAG: {
-      return { 
+      return {
           ...state,
           loading: action.result
       };
@@ -33,7 +33,7 @@ const reducer = (state = initialState, action) => {
       return { ...state, isPaused: action.result};
     }
     case SET_DATA: {
-      return { 
+      return {
         ...state,
         trackInfo: action.result
       };

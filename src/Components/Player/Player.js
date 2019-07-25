@@ -7,14 +7,15 @@ import { togglePlayAction } from '../../helpers/togglePlayAction';
 import { connect } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import Equalizer from '../Visualizators/Equalizer';
-import ReactPlayer from 'react-player'
-import { Helmet } from "react-helmet";
+import ReactPlayer from 'react-player';
+import { Helmet } from 'react-helmet';
+import('./Player.scss');
 
 const Player = ({ interval, activeStation, loading, trackInfo, isPaused }) => {
-  require('./Player.scss')
   const [value, changeVolumeValue] = useState(100);
   const dispatch = useDispatch();
   const trackInfoRef = useRef();
+  const intervalForEqualizer = useRef(null);
 
   useEffect(() => {
     const getTrackInfo = async() => {
@@ -34,7 +35,7 @@ const Player = ({ interval, activeStation, loading, trackInfo, isPaused }) => {
 
     return () =>
       clearInterval(interval.current);
-  }, [activeStation, interval]);
+  }, [activeStation, interval, dispatch]);
 
   return (
     <div className="header">
@@ -44,7 +45,7 @@ const Player = ({ interval, activeStation, loading, trackInfo, isPaused }) => {
             (
               <Helmet>
                 <title>{activeStation.name}</title>
-              </Helmet>   
+              </Helmet>
             )
           : ''
       }
@@ -57,10 +58,11 @@ const Player = ({ interval, activeStation, loading, trackInfo, isPaused }) => {
       <Equalizer
         visualLinesCount={140}
         heightRandomLimit={80}
+        intervalForEqualizer={intervalForEqualizer}
       />
       <div className='player-container'>
         {
-          trackInfo && !loading 
+          trackInfo && !loading
             ?
               (
                 <div className='track-info-block'>
@@ -119,6 +121,6 @@ const mapStateToProps = state => ({
   isPaused: state.track.isPaused,
   trackInfo: state.track.trackInfo,
   loading: state.track.loading
-})
+});
 
 export default connect(mapStateToProps)(Player);

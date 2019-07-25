@@ -1,17 +1,19 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import StationCard from '../StationCard/StationCard';
 import { removeFromFavoriteList, setFavoriteListFromLocalStorage } from '../../redux/reducers/favoriteList';
 import { useDispatch } from 'react-redux';
+import('./FavoriteList.scss');
 
 const FavoriteList = ({ favoriteList, activeStation, setActiveRadiostation }) => {
-  require('./FavoriteList.scss')
   const dispatch = useDispatch();
   useEffect(() => {
     const favoriteListFromStorage = window.localStorage.getItem('favoriteList');
     if (favoriteListFromStorage) {
-      dispatch(setFavoriteListFromLocalStorage(JSON.parse(favoriteListFromStorage).favoriteList))
+      dispatch(setFavoriteListFromLocalStorage(JSON.parse(favoriteListFromStorage).favoriteList));
     }
-  }, [])
+  }, []);
+
   return (
     <div className='favirite-list-container' data-simplebar>
       <div className='favorite-stations-list'>
@@ -32,7 +34,22 @@ const FavoriteList = ({ favoriteList, activeStation, setActiveRadiostation }) =>
         }
       </div>
     </div>
-  )
-}
+  );
+};
+
+FavoriteList.propTypes = {
+  activeStation: PropTypes.object,
+  setActiveRadiostation: PropTypes.func,
+  favoriteList: PropTypes.object,
+  isPaused: PropTypes.bool,
+  interval: PropTypes.instanceOf(Element).isRequired
+};
+
+FavoriteList.defaultProps = {
+  activeStation: {},
+  setActiveRadiostation: () => {},
+  favoriteList: {},
+  isPaused: false
+};
 
 export default FavoriteList;

@@ -38,7 +38,6 @@ StationCard.propTypes = {
   setActiveRadiostation: PropTypes.func,
   favoriteManageFunction: PropTypes.func,
   favoriteActionName: PropTypes.string,
-  interval: PropTypes.instanceOf(Element).isRequired
 };
 
 StationCard.defaultProps = {

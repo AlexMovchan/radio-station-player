@@ -58,7 +58,7 @@ Equalizer.propTypes = {
   isPaused: PropTypes.bool,
   visualLinesCount: PropTypes.number,
   heightRandomLimit: PropTypes.number,
-  interval: PropTypes.instanceOf(Element).isRequired,
+  interval: PropTypes.object.isRequired,
 };
 
 Equalizer.defaultProps = {

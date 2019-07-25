@@ -21,7 +21,7 @@ const Player = ({ interval, activeStation, loading, trackInfo, isPaused }) => {
     const getTrackInfo = async() => {
       try {
         const result = await axios.get(activeStation.textUrl);
-        if (!_.isEqual(result.data,  trackInfoRef.current)) {
+        if (!_.isEqual(result.data,  trackInfoRef.current) && typeof result.data === 'object') {
           trackInfoRef.current = result.data;
           dispatch(setData(result.data));
         }
@@ -58,7 +58,7 @@ const Player = ({ interval, activeStation, loading, trackInfo, isPaused }) => {
       <Equalizer
         visualLinesCount={140}
         heightRandomLimit={80}
-        intervalForEqualizer={intervalForEqualizer}
+        interval={intervalForEqualizer}
       />
       <div className='player-container'>
         {

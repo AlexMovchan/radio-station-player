@@ -42,7 +42,6 @@ FavoriteList.propTypes = {
   setActiveRadiostation: PropTypes.func,
   favoriteList: PropTypes.object,
   isPaused: PropTypes.bool,
-  interval: PropTypes.instanceOf(Element).isRequired
 };
 
 FavoriteList.defaultProps = {

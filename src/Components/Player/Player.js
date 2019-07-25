@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import Equalizer from '../Visualizators/Equalizer';
 import ReactPlayer from 'react-player'
+import { Helmet } from "react-helmet";
 
 const Player = ({ interval, activeStation, loading, trackInfo, isPaused }) => {
   require('./Player.scss')
@@ -37,6 +38,16 @@ const Player = ({ interval, activeStation, loading, trackInfo, isPaused }) => {
 
   return (
     <div className="header">
+      {
+        !isPaused
+          ?
+            (
+              <Helmet>
+                <title>{activeStation.name}</title>
+              </Helmet>   
+            )
+          : ''
+      }
       <ReactPlayer
         playing={!isPaused}
         url={activeStation.url}

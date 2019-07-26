@@ -32,14 +32,14 @@ const Foresight = () => {
   };
 
   const toggleContainer = () => {
-    marginRight ? setMarginRight(0) : setMarginRight(-322);
-  }
+    marginRight ? setMarginRight(0) : setMarginRight(-320);
+  };
 
   return (
-    <div className='foresight-container' style={{ right: marginRight}}>
+    <div className='foresight-container' style={{ right: `${marginRight}px`}}>
       <h4>Передбачення на сьогодні:</h4>
       <p>
-        {Number(lastUsedForesightDate) !== Number(todaysDate) || foresight === 'null'
+        {Number(lastUsedForesightDate) !== Number(todaysDate) || !foresight || foresight === 'null'
           ? <button onClick={getForesight}>Отримати передбачення!</button>
           : foresight
         }

@@ -1,28 +1,29 @@
-import React, { useEffect, useState, useRef } from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
+// import PropTypes from 'prop-types';
 import axios from 'axios';
 import _ from 'lodash';
 import { setData } from '../../redux/reducers/track';
 import { togglePlayAction } from '../../helpers/togglePlayAction';
-import { connect } from 'react-redux';
+import { useSelector, shallowEqual } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import Equalizer from '../Visualizators/Equalizer';
 import ReactPlayer from 'react-player';
 import { Helmet } from 'react-helmet';
 import('./Player.scss');
 
-const Player = ({ interval, activeStation, loading, trackInfo, isPaused }) => {
+const Player = () => {
   const [value, changeVolumeValue] = useState(100);
   const dispatch = useDispatch();
-  const trackInfoRef = useRef();
-  const intervalForEqualizer = useRef(null);
+  const activeStation = useSelector(state => state.track.activeStation, shallowEqual);
+  const loading = useSelector(state => state.track.loading);
+  const trackInfo = useSelector(state => state.track.trackInfo, shallowEqual);
+  const isPaused = useSelector(state => state.track.isPaused,);
 
   useEffect(() => {
     const getTrackInfo = async() => {
       try {
         const result = await axios.get(activeStation.textUrl);
-        if (!_.isEqual(result.data,  trackInfoRef.current) && typeof result.data === 'object') {
-          trackInfoRef.current = result.data;
+        if (!_.isEqual(result.data,  trackInfo) && typeof result.data === 'object') {
           dispatch(setData(result.data));
         }
       } catch (err) {
@@ -31,23 +32,20 @@ const Player = ({ interval, activeStation, loading, trackInfo, isPaused }) => {
     };
 
     getTrackInfo();
-    interval.current = setInterval(getTrackInfo, 3000);
-
-    return () =>
-      clearInterval(interval.current);
-  }, [activeStation, interval, dispatch]);
+    const interval = setInterval(getTrackInfo, 3000);
+    return () => clearInterval(interval);
+  }, [activeStation, dispatch, trackInfo]);
 
   return (
     <div className="header">
-      {
-        !isPaused
-          ?
-            (
-              <Helmet>
-                <title>{activeStation.name}</title>
-              </Helmet>
-            )
-          : ''
+      {!isPaused
+        ?
+          (
+            <Helmet>
+              <title>{activeStation.name}</title>
+            </Helmet>
+          )
+        : ''
       }
       <ReactPlayer
         playing={!isPaused}
@@ -58,7 +56,6 @@ const Player = ({ interval, activeStation, loading, trackInfo, isPaused }) => {
       <Equalizer
         visualLinesCount={140}
         heightRandomLimit={80}
-        interval={intervalForEqualizer}
       />
       <div className='player-container'>
         {
@@ -100,27 +97,20 @@ const Player = ({ interval, activeStation, loading, trackInfo, isPaused }) => {
   );
 };
 
-Player.propTypes = {
-	activeStation: PropTypes.object,
-  interval: PropTypes.object,
-  isPaused: PropTypes.bool,
-  trackInfo: PropTypes.object,
-  loading: PropTypes.bool,
-};
+// Player.propTypes = {
+// 	activeStation: PropTypes.object,
+//   interval: PropTypes.object,
+//   isPaused: PropTypes.bool,
+//   trackInfo: PropTypes.object,
+//   loading: PropTypes.bool,
+// };
 
-Player.defaultProps = {
-  activeStation: {},
-  interval: {},
-  isPaused: false,
-  trackInfo: {},
-  loading: false,
-};
+// Player.defaultProps = {
+//   activeStation: {},
+//   interval: {},
+//   isPaused: false,
+//   trackInfo: {},
+//   loading: false,
+// };
 
-const mapStateToProps = state => ({
-  activeStation: state.track.activeStation,
-  isPaused: state.track.isPaused,
-  trackInfo: state.track.trackInfo,
-  loading: state.track.loading
-});
-
-export default connect(mapStateToProps)(Player);
+export default Player;

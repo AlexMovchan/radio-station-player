@@ -1,6 +1,7 @@
 import React from 'react';
 import Stations from '../Components/Stations/Stations';
 import Player from '../Components/Player/Player';
+import Foresight from '../Components/Foresight/Foresight';
 import { Helmet } from 'react-helmet';
 import { Provider } from 'react-redux';
 import store from '../redux/store';
@@ -16,6 +17,7 @@ const App = () => (
 		<div className='App'>
 			<Player />
 			<Stations />
+			<Foresight />
 		</div>
 	</Provider>
 );

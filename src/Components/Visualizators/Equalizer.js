@@ -1,6 +1,6 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import getRandomColor from '../../helpers/getRandomColor';
 import('./Equalizer.scss');
 
@@ -10,10 +10,11 @@ const initialState = (visualLinesCount) => (
     height: 0,
     backgroundColor: getRandomColor(),
   }))
-  );
+);
 
-const Equalizer = ({ isPaused, visualLinesCount, heightRandomLimit, interval }) => {
+const Equalizer = ({ visualLinesCount, heightRandomLimit }) => {
   const [visualizatorCollection, changeCollection] = useState(() => initialState(visualLinesCount));
+  const isPaused = useSelector(state => state.track.isPaused);
 
   const setStyleToVisualizator = useCallback((isResetHeight = false) => {
     const getRandomHeight = () => Math.random() * (heightRandomLimit - 0) + 0;
@@ -30,16 +31,12 @@ const Equalizer = ({ isPaused, visualLinesCount, heightRandomLimit, interval }) 
 
   useEffect(() => {
     if (isPaused) {
-      clearInterval(interval);
       setStyleToVisualizator(true);
     } else {
-      interval = setInterval(setStyleToVisualizator, 200);
+      const interval = setInterval(setStyleToVisualizator, 200);
+      return () => clearInterval(interval);
     }
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, [isPaused]);
+  }, [isPaused, setStyleToVisualizator]);
 
   return (
     <div className='equalizer-container'>
@@ -55,20 +52,13 @@ const Equalizer = ({ isPaused, visualLinesCount, heightRandomLimit, interval }) 
 };
 
 Equalizer.propTypes = {
-  isPaused: PropTypes.bool,
   visualLinesCount: PropTypes.number,
   heightRandomLimit: PropTypes.number,
-  interval: PropTypes.object.isRequired,
 };
 
 Equalizer.defaultProps = {
-  isPaused: false,
   visualLinesCount: 9,
   heightRandomLimit: 90,
 };
 
-const mapStateToProps = state => ({
-  isPaused: state.track.isPaused,
-});
-
-export default connect(mapStateToProps)(Equalizer);
+export default Equalizer;

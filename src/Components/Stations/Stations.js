@@ -15,21 +15,21 @@ const Stations = () => {
   const isPaused = useSelector(state => state.track.isPaused);
   const dispatch = useDispatch();
 
-  const setActiveRadiostation = useCallback((station) => {
-    if (activeStation.id === station.id) {
-      togglePlayAction(isPaused, dispatch);
-    } else {
-      dispatch(setPauseStatus(false));
-      dispatch(setActiveStation(station));
-    }
-  }, [activeStation, dispatch, isPaused]);
-
-  const filteredStations = useMemo(() =>
-    stations
-      .filter(station => !favoriteList[station.id])
-      .reverse(),
-    [favoriteList]
+  const setActiveRadiostation = useCallback(
+    station => {
+      if (activeStation.id === station.id) {
+        togglePlayAction(isPaused, dispatch);
+      } else {
+        dispatch(setPauseStatus(false));
+        dispatch(setActiveStation(station));
+      }
+    },
+    [activeStation, dispatch, isPaused]
   );
+
+  const filteredStations = useMemo(() => stations.filter(station => !favoriteList[station.id]).reverse(), [
+    favoriteList,
+  ]);
 
   return (
     <Fragment>
@@ -41,17 +41,17 @@ const Stations = () => {
         />
 
         <div className='stations-list'>
-          {filteredStations.map(station =>
+          {filteredStations.map(station => (
             <StationCard
               key={station.id}
               isActive={station.id === activeStation.id}
               station={station}
               activeStation={activeStation}
               setActiveRadiostation={setActiveRadiostation}
-              favoriteManageFunction={(station) => dispatch(addToFavoriteList(station))}
+              favoriteManageFunction={station => dispatch(addToFavoriteList(station))}
               favoriteActionName='add'
-            />)
-          }
+            />
+          ))}
         </div>
       </div>
     </Fragment>

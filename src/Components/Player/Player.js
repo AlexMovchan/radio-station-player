@@ -17,9 +17,8 @@ const Player = () => {
   const isPaused = useSelector(state => state.track.isPaused,);
 
   useEffect(() => {
-    const getTrack = dispatch(getTrackInfo(activeStation, trackInfo));
-    getTrack();
-    const interval = setInterval(getTrack, 3000);
+    dispatch(getTrackInfo(activeStation, trackInfo));
+    const interval = setInterval(() => dispatch(getTrackInfo(activeStation, trackInfo)), 3000);
 
     return () => clearInterval(interval);
   }, [activeStation, dispatch, trackInfo]);

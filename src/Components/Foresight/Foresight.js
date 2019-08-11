@@ -20,7 +20,7 @@ const Foresight = () => {
       setForesightText('');
       setForesightDay(todaysDate);
     }
-  }, []);
+  }, [lastUsedForesightDate, todaysDate]);
 
   const getForesight = async() => {
     const result = await axios.get('./foresight.json');

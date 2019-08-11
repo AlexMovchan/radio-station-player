@@ -1,7 +1,11 @@
+import axios from 'axios';
+import _ from 'lodash';
+
 const SET_LOADING_FLAG = 'reducers/track/SET_LOADING_FLAG';
 const SET_PAUSE_STATUS = 'reducers/track/SET_PAUSE_STATUS';
-const SET_DATA = 'reducers/track/SET_DATA';
+const SET_TRACK_INFO = 'reducers/track/SET_TRACK_INFO';
 const SET_ACTIVE_STATION = 'reducers/track/SET_ACTIVE_STATION';
+const SET_ERROR = 'reducers/track/SET_ERROR';
 const CLEAR_TRACK_INFO = 'reducers/track/CLEAR_TRACK_INFO';
 
 const initialState = {
@@ -19,7 +23,8 @@ const initialState = {
     itunesURL: '',
     title: '',
     artist: '',
-  }
+  },
+  trackInfoError: null
 };
 
 const reducer = (state = initialState, action) => {
@@ -33,16 +38,23 @@ const reducer = (state = initialState, action) => {
     case SET_PAUSE_STATUS: {
       return { ...state, isPaused: action.result};
     }
-    case SET_DATA: {
+    case SET_TRACK_INFO: {
       return {
         ...state,
-        trackInfo: action.result
+        trackInfo: action.result,
+        trackInfoError: null
       };
     }
     case SET_ACTIVE_STATION: {
       return {
         ...state,
         activeStation: action.result
+      };
+    }
+    case SET_ERROR: {
+      return {
+        ...state,
+        trackInfoError: action.error
       };
     }
     case CLEAR_TRACK_INFO: {
@@ -63,6 +75,11 @@ const reducer = (state = initialState, action) => {
   }
 };
 
+export const setTrackInfoError = error => ({
+  type: SET_ERROR,
+  error
+});
+
 export const setLoadingFlag = flag => ({
   type: SET_LOADING_FLAG,
   result: flag
@@ -74,7 +91,7 @@ export const setPauseStatus = flag => ({
 });
 
 export const setData = data => ({
-  type: SET_DATA,
+  type: SET_TRACK_INFO,
   result: data
 });
 
@@ -82,6 +99,18 @@ export const setActiveStation = station => ({
   type: SET_ACTIVE_STATION,
   result: station
 });
+
+export const getTrackInfo = (activeStation, trackInfo) => dispatch => {
+  axios.get(activeStation.textUrl)
+    .then(result => {
+      if (!_.isEqual(result.data, trackInfo) && typeof result.data === 'object') {
+        dispatch(setData(result.data));
+      } else {
+        dispatch(setData(result.data));
+      }
+    })
+    .catch (error => dispatch(setTrackInfoError(error)));
+};
 
 export const clearTrackInfo = () => ({
   type: CLEAR_TRACK_INFO,

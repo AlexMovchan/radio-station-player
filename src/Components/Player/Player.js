@@ -25,6 +25,8 @@ const Player = () => {
         const result = await axios.get(activeStation.textUrl);
         if (!_.isEqual(result.data,  trackInfo) && typeof result.data === 'object') {
           dispatch(setData(result.data));
+        } else {
+          dispatch(setData(result.data));
         }
       } catch (err) {
         console.error(err);

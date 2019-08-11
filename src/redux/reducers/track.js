@@ -2,6 +2,7 @@ const SET_LOADING_FLAG = 'reducers/track/SET_LOADING_FLAG';
 const SET_PAUSE_STATUS = 'reducers/track/SET_PAUSE_STATUS';
 const SET_DATA = 'reducers/track/SET_DATA';
 const SET_ACTIVE_STATION = 'reducers/track/SET_ACTIVE_STATION';
+const CLEAR_TRACK_INFO = 'reducers/track/CLEAR_TRACK_INFO';
 
 const initialState = {
   loading: false,
@@ -44,6 +45,17 @@ const reducer = (state = initialState, action) => {
         activeStation: action.result
       };
     }
+    case CLEAR_TRACK_INFO: {
+      return {
+        ...state,
+        trackInfo: {
+          image600: '',
+          itunesURL: '',
+          title: '',
+          artist: '',
+        }
+      };
+    }
 
     default: {
       return state;
@@ -69,6 +81,10 @@ export const setData = data => ({
 export const setActiveStation = station => ({
   type: SET_ACTIVE_STATION,
   result: station
+});
+
+export const clearTrackInfo = () => ({
+  type: CLEAR_TRACK_INFO,
 });
 
 export default reducer;

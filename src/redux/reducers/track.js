@@ -6,6 +6,7 @@ const SET_PAUSE_STATUS = 'reducers/track/SET_PAUSE_STATUS';
 const SET_TRACK_INFO = 'reducers/track/SET_TRACK_INFO';
 const SET_ACTIVE_STATION = 'reducers/track/SET_ACTIVE_STATION';
 const SET_ERROR = 'reducers/track/SET_ERROR';
+const CLEAR_TRACK_INFO = 'reducers/track/CLEAR_TRACK_INFO';
 
 const initialState = {
   loading: false,
@@ -56,6 +57,17 @@ const reducer = (state = initialState, action) => {
         trackInfoError: action.error
       };
     }
+    case CLEAR_TRACK_INFO: {
+      return {
+        ...state,
+        trackInfo: {
+          image600: '',
+          itunesURL: '',
+          title: '',
+          artist: '',
+        }
+      };
+    }
 
     default: {
       return state;
@@ -93,9 +105,15 @@ export const getTrackInfo = (activeStation, trackInfo) => dispatch => {
     .then(result => {
       if (!_.isEqual(result.data, trackInfo) && typeof result.data === 'object') {
         dispatch(setData(result.data));
+      } else {
+        dispatch(setData(result.data));
       }
     })
     .catch (error => dispatch(setTrackInfoError(error)));
 };
+
+export const clearTrackInfo = () => ({
+  type: CLEAR_TRACK_INFO,
+});
 
 export default reducer;

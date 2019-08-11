@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from 'react';
-// import PropTypes from 'prop-types';
-import axios from 'axios';
-import _ from 'lodash';
-import { setData } from '../../redux/reducers/track';
-import { togglePlayAction } from '../../helpers/togglePlayAction';
-import { useSelector, shallowEqual } from 'react-redux';
-import { useDispatch } from 'react-redux';
-import Equalizer from '../Visualizators/Equalizer';
+import PropTypes from 'prop-types';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import ReactPlayer from 'react-player';
 import { Helmet } from 'react-helmet';
+import { getTrackInfo } from '../../redux/reducers/track';
+import { togglePlayAction } from '../../helpers/togglePlayAction';
+import Equalizer from '../Visualizators/Equalizer';
 import('./Player.scss');
 
 const Player = () => {
@@ -20,19 +17,9 @@ const Player = () => {
   const isPaused = useSelector(state => state.track.isPaused,);
 
   useEffect(() => {
-    const getTrackInfo = async() => {
-      try {
-        const result = await axios.get(activeStation.textUrl);
-        if (!_.isEqual(result.data,  trackInfo) && typeof result.data === 'object') {
-          dispatch(setData(result.data));
-        }
-      } catch (err) {
-        console.error(err);
-      }
-    };
+    dispatch(getTrackInfo(activeStation, trackInfo));
 
-    getTrackInfo();
-    const interval = setInterval(getTrackInfo, 3000);
+    const interval = setInterval(() => dispatch(getTrackInfo(activeStation, trackInfo)), 3000);
     return () => clearInterval(interval);
   }, [activeStation, dispatch, trackInfo]);
 
@@ -97,20 +84,20 @@ const Player = () => {
   );
 };
 
-// Player.propTypes = {
-// 	activeStation: PropTypes.object,
-//   interval: PropTypes.object,
-//   isPaused: PropTypes.bool,
-//   trackInfo: PropTypes.object,
-//   loading: PropTypes.bool,
-// };
+Player.propTypes = {
+	activeStation: PropTypes.object,
+  interval: PropTypes.object,
+  isPaused: PropTypes.bool,
+  trackInfo: PropTypes.object,
+  loading: PropTypes.bool,
+};
 
-// Player.defaultProps = {
-//   activeStation: {},
-//   interval: {},
-//   isPaused: false,
-//   trackInfo: {},
-//   loading: false,
-// };
+Player.defaultProps = {
+  activeStation: {},
+  interval: {},
+  isPaused: false,
+  trackInfo: {},
+  loading: false,
+};
 
 export default Player;

@@ -25,9 +25,11 @@ const Stations = () => {
   }, [activeStation, dispatch, isPaused]);
 
   const filteredStations = useMemo(() =>
-    stations
-      .filter(station => !favoriteList[station.id])
-      .reverse(),
+    favoriteList
+      ? stations
+        .filter(station => !favoriteList[station.id])
+        .reverse()
+      : stations,
     [favoriteList]
   );
 

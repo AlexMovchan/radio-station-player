@@ -234,7 +234,7 @@ const stations = [
 		name: 'Disco-80',
 		url: recordStreamUrl('1980'),
 		textUrl: recordText('1980')
-	},
+	}, 
 	{
 		id: 34,
 		prefix: 'complextro',

@@ -4,30 +4,31 @@ import { useSelector } from 'react-redux';
 import getRandomColor from '../../helpers/getRandomColor';
 import('./Equalizer.scss');
 
-const initialState = (visualLinesCount) => (
+const initialState = visualLinesCount =>
   [...new Array(visualLinesCount)].map((item, index) => ({
     id: index,
     height: 0,
     backgroundColor: getRandomColor(),
-  }))
-);
+  }));
 
 const Equalizer = ({ visualLinesCount, heightRandomLimit }) => {
   const [visualizatorCollection, changeCollection] = useState(() => initialState(visualLinesCount));
   const isPaused = useSelector(state => state.track.isPaused);
 
-  const setStyleToVisualizator = useCallback((isResetHeight = false) => {
-    const getRandomHeight = () => Math.random() * (heightRandomLimit - 0) + 0;
+  const setStyleToVisualizator = useCallback(
+    (isResetHeight = false) => {
+      const getRandomHeight = () => Math.random() * (heightRandomLimit - 0) + 0;
 
-    const changedStyleArray = visualizatorCollection.map(item => ({
-      id: item.id,
-      height: `${isResetHeight ? 0 : getRandomHeight()}px`,
-      backgroundColor: getRandomColor(),
-    }));
+      const changedStyleArray = visualizatorCollection.map(item => ({
+        id: item.id,
+        height: `${isResetHeight ? 0 : getRandomHeight()}px`,
+        backgroundColor: getRandomColor(),
+      }));
 
-    changeCollection(changedStyleArray);
-
-  }, [visualizatorCollection, heightRandomLimit]);
+      changeCollection(changedStyleArray);
+    },
+    [visualizatorCollection, heightRandomLimit]
+  );
 
   useEffect(() => {
     if (isPaused) {

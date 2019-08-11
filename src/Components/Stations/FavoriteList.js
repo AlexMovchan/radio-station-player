@@ -12,26 +12,23 @@ const FavoriteList = ({ favoriteList, activeStation, setActiveRadiostation }) =>
     if (favoriteListFromStorage) {
       dispatch(setFavoriteListFromLocalStorage(JSON.parse(favoriteListFromStorage).favoriteList));
     }
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className='favirite-list-container' data-simplebar>
       <div className='favorite-stations-list'>
-        {
-          Object.keys(favoriteList).length
-            ?
-              Object.keys(favoriteList).map(key => (
-                <StationCard
-                  key={key}
-                  station={favoriteList[key]}
-                  isActive={activeStation.id === favoriteList[key].id}
-                  setActiveRadiostation={setActiveRadiostation}
-                  favoriteManageFunction={(station) => dispatch(removeFromFavoriteList(station))}
-                  favoriteActionName='remove'
-                />
-              ))
-            : ''
-        }
+        {Object.keys(favoriteList).length
+          ? Object.keys(favoriteList).map(key => (
+              <StationCard
+                key={key}
+                station={favoriteList[key]}
+                isActive={activeStation.id === favoriteList[key].id}
+                setActiveRadiostation={setActiveRadiostation}
+                favoriteManageFunction={station => dispatch(removeFromFavoriteList(station))}
+                favoriteActionName='remove'
+              />
+            ))
+          : ''}
       </div>
     </div>
   );
@@ -48,7 +45,7 @@ FavoriteList.defaultProps = {
   activeStation: {},
   setActiveRadiostation: () => {},
   favoriteList: {},
-  isPaused: false
+  isPaused: false,
 };
 
 export default FavoriteList;

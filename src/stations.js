@@ -12,6 +12,13 @@ const stations = [
 		textUrl: recordText('brks')
 	},
 	{
+		id: 44,
+		prefix: 'synth',
+		name: 'Synthwave',
+		url: recordStreamUrl('synth'),
+		textUrl: recordText('synth'),
+	},
+	{
 		id: 2,
 		prefix: 'chil',
 		name: 'Chill-out',

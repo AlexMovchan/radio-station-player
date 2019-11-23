@@ -12,13 +12,6 @@ const stations = [
 		textUrl: recordText('brks')
 	},
 	{
-		id: 44,
-		prefix: 'synth',
-		name: 'Synthwave',
-		url: recordStreamUrl('synth'),
-		textUrl: recordText('synth'),
-	},
-	{
 		id: 2,
 		prefix: 'chil',
 		name: 'Chill-out',
@@ -318,6 +311,13 @@ const stations = [
 		name: 'LUX FM',
 		url: 'http://icecast.luxnet.ua/lux_mp3',
 		textUrl: '',
+	},
+	{
+		id: 45,
+		prefix: 'synth',
+		name: 'Synthwave',
+		url: recordStreamUrl('synth'),
+		textUrl: recordText('synth'),
 	},
 ];
 

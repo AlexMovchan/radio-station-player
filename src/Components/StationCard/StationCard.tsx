@@ -1,8 +1,16 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import('./StationCard.scss');
+import React, { SFC, FormEvent } from 'react';
+import { IStation } from '../Stations/types';
+import './StationCard.scss';
 
-const StationCard = ({ station, isActive, setActiveRadiostation, favoriteManageFunction, favoriteActionName }) => (
+interface IProps {
+  station: IStation;
+  isActive: boolean;
+  setActiveRadiostation: (station: IStation) => void;
+  favoriteManageFunction: (station: IStation) => void;
+  favoriteActionName: string;
+}
+
+const StationCard: SFC<IProps> = ({ station, isActive, setActiveRadiostation, favoriteManageFunction, favoriteActionName }) => (
   <div className={`station-card ${isActive ? 'active' : ''}`} onClick={() => setActiveRadiostation(station)}>
     <div className='background-icon'>
       <div className={`triangle centered ${isActive ? 'animated' : ''}`} />
@@ -13,11 +21,9 @@ const StationCard = ({ station, isActive, setActiveRadiostation, favoriteManageF
     <div className='card-title'>
       <div className='title'>{station.name}</div>
     </div>
-
     <div
       className='favorite-button-action'
-      tooltip={favoriteActionName}
-      onClick={e => {
+      onClick={(e: FormEvent<HTMLDivElement>) => {
         e.stopPropagation();
         favoriteManageFunction(station);
       }}
@@ -28,20 +34,5 @@ const StationCard = ({ station, isActive, setActiveRadiostation, favoriteManageF
     </div>
   </div>
 );
-StationCard.propTypes = {
-  station: PropTypes.object,
-  isActive: PropTypes.bool,
-  setActiveRadiostation: PropTypes.func,
-  favoriteManageFunction: PropTypes.func,
-  favoriteActionName: PropTypes.string,
-};
-
-StationCard.defaultProps = {
-  station: {},
-  isActive: false,
-  setActiveRadiostation: () => {},
-  favoriteManageFunction: () => {},
-  favoriteActionName: '',
-};
 
 export default StationCard;

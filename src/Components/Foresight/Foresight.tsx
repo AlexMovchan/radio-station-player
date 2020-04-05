@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import('./Foresight.scss');
+import './Foresight.scss';
 
-const setForesightText = text => window.localStorage.setItem('ForesightText', text);
+const setForesightText = (text: string) => window.localStorage.setItem('ForesightText', text);
 const getForesightText = () => window.localStorage.getItem('ForesightText');
-const setForesightDay = date => window.localStorage.setItem('ForesightDay', date);
+const setForesightDay = (date: number) => window.localStorage.setItem('ForesightDay', date.toString());
 const getForesightDay = () => window.localStorage.getItem('ForesightDay');
 
 const Foresight = () => {
@@ -12,8 +12,8 @@ const Foresight = () => {
   const [marginRight, setMarginRight] = useState(0);
 
 
-  const lastUsedForesightDate = getForesightDay();
-  const todaysDate = (new Date()).getDay();
+  const lastUsedForesightDate: string | null = getForesightDay();
+  const todaysDate: number = (new Date()).getDay();
 
   useEffect(() => {
     if (Number(lastUsedForesightDate) !== Number(todaysDate)) {
@@ -39,7 +39,7 @@ const Foresight = () => {
     <div className='foresight-container' style={{ right: `${marginRight}px`}}>
       <h4>Передбачення на сьогодні:</h4>
       <p>
-        {Number(lastUsedForesightDate) !== Number(todaysDate) || !foresight || foresight === 'null'
+        {Number(lastUsedForesightDate) !== todaysDate || !foresight || foresight === 'null'
           ? <button onClick={getForesight}>Отримати передбачення!</button>
           : foresight
         }

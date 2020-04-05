@@ -1,6 +1,6 @@
 import { setPauseStatus } from '../redux/reducers/track';
 
-export const togglePlayAction = (isPaused, dispatch) => {
+export const togglePlayAction = (isPaused: boolean, dispatch: Function) => {
   if (isPaused) {
     dispatch(setPauseStatus(false));
   } else {

@@ -1,12 +1,22 @@
-const ADD_TO_FAVORITE_LIST= 'reducers/favoriteList/ADD_TO_FAVORITE_LIST';
+import { IStation } from '../../Components/Stations/types';
+
+const ADD_TO_FAVORITE_LIST = 'reducers/favoriteList/ADD_TO_FAVORITE_LIST';
 const REMOVE_FROM_FAVORITE_LIST = 'reducers/favoriteList/REMOVE_FROM_FAVORITE_LIST';
 const SET_LIST_FROM_STORAGE = 'reducers/favoriteList/SET_LIST_FROM_STORAGE';
 
-const initialState = {
+export interface IFavoriteList {
+  [key: string]: IStation
+}
+
+export interface IState {
+  favoriteList: IFavoriteList
+}
+
+const initialState: IState = {
   favoriteList: {}
 };
 
-const reducer = (state = initialState, action) => {
+const reducer = (state = initialState, action: {type: string; result: IStation}) => {
   switch (action.type) {
     case ADD_TO_FAVORITE_LIST: {
       const mergedObj = {
@@ -39,17 +49,17 @@ const reducer = (state = initialState, action) => {
   }
 };
 
-export const addToFavoriteList = station => ({
+export const addToFavoriteList = (station: IStation) => ({
   type: ADD_TO_FAVORITE_LIST,
   result: station
 });
 
-export const removeFromFavoriteList = station => ({
+export const removeFromFavoriteList = (station: IStation) => ({
   type: REMOVE_FROM_FAVORITE_LIST,
   result: station
 });
 
-export const setFavoriteListFromLocalStorage = favoriteList => ({
+export const setFavoriteListFromLocalStorage = (favoriteList: IStation[]) => ({
   type: SET_LIST_FROM_STORAGE,
   result: favoriteList
 });

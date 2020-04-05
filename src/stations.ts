@@ -319,6 +319,22 @@ const stations = [
     url: recordStreamUrl('synth'),
     textUrl: recordText('synth'),
   },
+  {
+    id: 46,
+    prefix: 'trancehits',
+    name: 'Trance Hits',
+    url: recordStreamUrl('trancehits'),
+    textUrl: recordText('trancehits'),
+  },
+  {
+    id: 47,
+    prefix: 'rv',
+    name: 'Руки Вверх',
+    url: recordStreamUrl('rv'),
+    textUrl: recordText('rv'),
+  },
 ];
+
+
 
 export default stations;

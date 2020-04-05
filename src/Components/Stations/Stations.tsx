@@ -7,12 +7,12 @@ import { useSelector, shallowEqual } from 'react-redux';
 import StationCard from '../StationCard/StationCard';
 import FavoriteList from './FavoriteList';
 import { togglePlayAction } from '../../helpers/togglePlayAction';
-import('./Stations.scss');
+import './Stations.scss';
 
 const Stations = () => {
-  const favoriteList = useSelector(state => state.favoriteList.favoriteList, shallowEqual);
-  const activeStation = useSelector(state => state.track.activeStation, shallowEqual);
-  const isPaused = useSelector(state => state.track.isPaused);
+  const favoriteList = useSelector((state: any) => state.favoriteList.favoriteList, shallowEqual);
+  const activeStation = useSelector((state: any) => state.track.activeStation, shallowEqual);
+  const isPaused = useSelector((state: any) => state.track.isPaused);
   const dispatch = useDispatch();
 
   const setActiveRadiostation = useCallback((station) => {
@@ -48,7 +48,6 @@ const Stations = () => {
               key={station.id}
               isActive={station.id === activeStation.id}
               station={station}
-              activeStation={activeStation}
               setActiveRadiostation={setActiveRadiostation}
               favoriteManageFunction={(station) => dispatch(addToFavoriteList(station))}
               favoriteActionName='add'

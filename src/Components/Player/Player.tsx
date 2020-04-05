@@ -1,24 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, ChangeEvent } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import { Dispatch } from 'redux';
 import ReactPlayer from 'react-player';
 import { Helmet } from 'react-helmet';
-import { getTrackInfo } from '../../redux/reducers/track';
+import { getTrackInfo, ITrack } from '../../redux/reducers/track';
+import { IStation } from '../Stations/types';
 import { togglePlayAction } from '../../helpers/togglePlayAction';
 import Equalizer from '../Visualizators/Equalizer';
-import('./Player.scss');
+import './Player.scss';
 
 const Player = () => {
-  const [value, changeVolumeValue] = useState(100);
-  const dispatch = useDispatch();
-  const activeStation = useSelector(state => state.track.activeStation, shallowEqual);
-  const loading = useSelector(state => state.track.loading);
-  const trackInfo = useSelector(state => state.track.trackInfo, shallowEqual);
-  const isPaused = useSelector(state => state.track.isPaused);
+  const [value, changeVolumeValue] = useState<number>(100);
+  const dispatch: Dispatch = useDispatch();
+  const activeStation: IStation = useSelector((state: any) => state.track.activeStation, shallowEqual);
+  const loading: boolean = useSelector((state: any) => state.track.loading);
+  const trackInfo: ITrack = useSelector((state: any) => state.track.trackInfo, shallowEqual);
+  const isPaused: boolean = useSelector((state: any) => state.track.isPaused);
 
   useEffect(() => {
-    dispatch(getTrackInfo(activeStation, trackInfo));
-    const interval = setInterval(() => dispatch(getTrackInfo(activeStation, trackInfo)), 3000);
+    getTrackInfo(activeStation, trackInfo)(dispatch);
+    const interval = setInterval(() => getTrackInfo(activeStation, trackInfo)(dispatch), 3000);
 
     return () => clearInterval(interval);
   }, [activeStation, dispatch, trackInfo]);
@@ -76,7 +78,7 @@ const Player = () => {
             min='0'
             max='100'
             value={value}
-            onChange={e => changeVolumeValue(e.target.value)}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => changeVolumeValue(Number(e.target.value))}
           />
           <div
             className='play-btn'

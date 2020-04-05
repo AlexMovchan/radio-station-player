@@ -1,5 +1,7 @@
 import axios from 'axios';
-import _ from 'lodash';
+import { isEqual } from 'lodash';
+import { Dispatch } from 'redux';
+import { IStation } from '../../Components/Stations/types'
 
 const SET_LOADING_FLAG = 'reducers/track/SET_LOADING_FLAG';
 const SET_PAUSE_STATUS = 'reducers/track/SET_PAUSE_STATUS';
@@ -8,7 +10,22 @@ const SET_ACTIVE_STATION = 'reducers/track/SET_ACTIVE_STATION';
 const SET_ERROR = 'reducers/track/SET_ERROR';
 const CLEAR_TRACK_INFO = 'reducers/track/CLEAR_TRACK_INFO';
 
-const initialState = {
+export interface ITrack {
+  image600: string;
+  itunesURL: string;
+  title: string;
+  artist: string;
+}
+
+interface IState {
+  loading: boolean;
+  activeStation: IStation;
+  isPaused: boolean;
+  trackInfo: ITrack;
+  trackInfoError: any;
+}
+
+const initialState: IState = {
   loading: false,
   activeStation: {
     prefix: '',
@@ -27,7 +44,7 @@ const initialState = {
   trackInfoError: null
 };
 
-const reducer = (state = initialState, action) => {
+const reducer = (state = initialState, action: {type: string; result: any; error: any}) => {
   switch (action.type) {
     case SET_LOADING_FLAG: {
       return {
@@ -75,35 +92,35 @@ const reducer = (state = initialState, action) => {
   }
 };
 
-export const setTrackInfoError = error => ({
+export const setTrackInfoError = (error: any) => ({
   type: SET_ERROR,
   error
 });
 
-export const setLoadingFlag = flag => ({
+export const setLoadingFlag = (flag: boolean) => ({
   type: SET_LOADING_FLAG,
   result: flag
 });
 
-export const setPauseStatus = flag => ({
+export const setPauseStatus = (flag: boolean) => ({
   type: SET_PAUSE_STATUS,
   result: flag
 });
 
-export const setData = data => ({
+export const setData = (data: ITrack) => ({
   type: SET_TRACK_INFO,
   result: data
 });
 
-export const setActiveStation = station => ({
+export const setActiveStation = (station: IStation) => ({
   type: SET_ACTIVE_STATION,
   result: station
 });
 
-export const getTrackInfo = (activeStation, trackInfo) => dispatch => {
+export const getTrackInfo = (activeStation: IStation, trackInfo: ITrack) => (dispatch: Dispatch) => {
   axios.get(activeStation.textUrl)
     .then(result => {
-      if (!_.isEqual(result.data, trackInfo) && typeof result.data === 'object') {
+      if (!isEqual(result.data, trackInfo) && typeof result.data === 'object') {
         dispatch(setData(result.data));
       } else {
         dispatch(setData(result.data));

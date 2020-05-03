@@ -309,7 +309,7 @@ const stations = [
     id: 44,
     prefix: 'luxfm',
     name: 'LUX FM',
-    url: 'http://icecast.luxnet.ua/lux_mp3',
+    url: 'https://streamvideo.luxnet.ua/lux/smil:lux.stream.smil/chunklist_b128000_slukr.m3u8',
     textUrl: '',
   },
   {

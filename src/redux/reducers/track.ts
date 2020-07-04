@@ -17,7 +17,7 @@ export interface ITrack {
   artist: string;
 }
 
-interface IState {
+export interface ITrackState {
   loading: boolean;
   activeStation: IStation;
   isPaused: boolean;
@@ -25,7 +25,7 @@ interface IState {
   trackInfoError: any;
 }
 
-const initialState: IState = {
+const initialState: ITrackState = {
   loading: false,
   activeStation: {
     prefix: '',
@@ -117,15 +117,9 @@ export const setActiveStation = (station: IStation) => ({
   result: station
 });
 
-export const getTrackInfo = (activeStation: IStation, trackInfo: ITrack) => (dispatch: Dispatch) => {
+export const getTrackInfo = (activeStation: IStation) => (dispatch: Dispatch) => {
   axios.get(activeStation.textUrl)
-    .then(result => {
-      if (!isEqual(result.data, trackInfo) && typeof result.data === 'object') {
-        dispatch(setData(result.data));
-      } else {
-        dispatch(setData(result.data));
-      }
-    })
+    .then(result => dispatch(setData(result.data)))
     .catch (error => dispatch(setTrackInfoError(error)));
 };
 

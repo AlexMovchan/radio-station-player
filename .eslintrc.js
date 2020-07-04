@@ -16,7 +16,7 @@ module.exports = {
   rules: {
     'prettier/prettier': 'error',
     'react-hooks/rules-of-hooks': 'error',
-    'react-hooks/exhaustive-deps': 'warn',
+    // 'react-hooks/exhaustive-deps': 'warn',
     quotes: ['error', 'single'],
     'no-trailing-spaces': 'error',
     'no-console': ['error', { allow: ['warn', 'error'] }],

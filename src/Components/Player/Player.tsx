@@ -1,76 +1,65 @@
-import React, { useEffect, useState, ChangeEvent } from 'react';
-import PropTypes from 'prop-types';
-import { useSelector, shallowEqual, useDispatch } from 'react-redux';
-import { Dispatch } from 'redux';
+import React, { FC, useEffect, useState, ChangeEvent, Dispatch } from 'react';
+import { connect } from 'react-redux';
 import ReactPlayer from 'react-player';
 import { Helmet } from 'react-helmet';
 import { getTrackInfo, ITrack } from '../../redux/reducers/track';
 import { IStation } from '../Stations/types';
-import { togglePlayAction } from '../../helpers/togglePlayAction';
+import { setPauseStatus } from '../../redux/reducers/track';
 import Equalizer from '../Visualizators/Equalizer';
 import './Player.scss';
 
-const Player = () => {
-  const [value, changeVolumeValue] = useState<number>(100);
-  const dispatch: Dispatch = useDispatch();
-  const activeStation: IStation = useSelector((state: any) => state.track.activeStation, shallowEqual);
-  const loading: boolean = useSelector((state: any) => state.track.loading);
-  const trackInfo: ITrack = useSelector((state: any) => state.track.trackInfo, shallowEqual);
-  const isPaused: boolean = useSelector((state: any) => state.track.isPaused);
+interface IProps {
+  activeStation: IStation;
+  isPaused: boolean;
+  trackInfo: ITrack;
+  loading: boolean;
+  dispatch: (action: any) => void;
+}
+
+const Player: FC<IProps> = (props) => {
+  const [value, changeVolumeValue] = useState<number>(70);
+  const { activeStation, trackInfo, isPaused, loading, dispatch } = props;
 
   useEffect(() => {
-    getTrackInfo(activeStation, trackInfo)(dispatch);
-    const interval = setInterval(() => getTrackInfo(activeStation, trackInfo)(dispatch), 3000);
+    dispatch(getTrackInfo(activeStation));
+    const interval = setInterval(() => dispatch(getTrackInfo(activeStation)), 3000);
 
     return () => clearInterval(interval);
-  }, [activeStation, dispatch, trackInfo]);
+  }, [activeStation.id, dispatch]);
 
   return (
     <div className='header'>
-      {!isPaused ? (
-        <Helmet>
-          <title>{activeStation.name}</title>
-        </Helmet>
-      ) : (
-        ''
-      )}
+      {!isPaused && <Helmet><title>{activeStation.name}</title></Helmet>}
       <ReactPlayer playing={!isPaused} url={activeStation.url} volume={value / 100} width={0} />
       <Equalizer visualLinesCount={140} heightRandomLimit={80} />
       <div className='player-container'>
-        {trackInfo && !loading ? (
-          <div className='track-info-block'>
-            <div
-              className='track-icon'
-              style={{
-                backgroundImage: trackInfo.image600
+        {trackInfo && !loading
+          ? (
+            <div className='track-info-block'>
+              <div
+                className='track-icon'
+                style={{ backgroundImage: trackInfo.image600
                   ? `URL(${trackInfo.image600})`
                   : 'URL(./img/default-album-logo.png)',
-              }}
-            />
-            <div>
+                }}
+              />
               <div>
-                <a
-                  href={`https://www.google.com/search?q=${trackInfo.artist} - ${trackInfo.title} скачать`}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                >
-                  {trackInfo.artist}
-                </a>
-              </div>
-              <div>
-                <a
-                  href={`https://www.google.com/search?q=${trackInfo.artist} - ${trackInfo.title} скачать`}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                >
-                  {trackInfo.title}
-                </a>
+                <div>
+                  <a
+                    href={`https://www.google.com/search?q=${trackInfo.artist} - ${trackInfo.title} скачать`}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                  >
+                    {trackInfo.artist}
+                    <br />
+                    {trackInfo.title}
+                  </a>
+                </div>
               </div>
             </div>
-          </div>
-        ) : (
-          'Loading ...'
-        )}
+          )
+          : 'Loading ...'
+        }
         <div className='player-controls'>
           <input
             className='volume-control'
@@ -82,7 +71,7 @@ const Player = () => {
           />
           <div
             className='play-btn'
-            onClick={() => togglePlayAction(isPaused, dispatch)}
+            onClick={() => dispatch(setPauseStatus(!isPaused))}
             style={{ backgroundImage: isPaused ? 'URL(./img/play.png)' : 'URL(./img/pause.png)' }}
           />
         </div>
@@ -91,20 +80,11 @@ const Player = () => {
   );
 };
 
-Player.propTypes = {
-	activeStation: PropTypes.object,
-  interval: PropTypes.object,
-  isPaused: PropTypes.bool,
-  trackInfo: PropTypes.object,
-  loading: PropTypes.bool,
-};
+const mapStateToProps = (state: any) => ({
+  activeStation: state.track.activeStation,
+  loading: state.track.loading,
+  trackInfo: state.track.trackInfo,
+  isPaused: state.track.isPaused,
+})
 
-Player.defaultProps = {
-  activeStation: {},
-  interval: {},
-  isPaused: false,
-  trackInfo: {},
-  loading: false,
-};
-
-export default Player;
+export default connect(mapStateToProps)(Player);

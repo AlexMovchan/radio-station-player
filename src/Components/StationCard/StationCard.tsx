@@ -1,4 +1,4 @@
-import React, { SFC, FormEvent } from 'react';
+import React, { FC, FormEvent } from 'react';
 import { IStation } from '../Stations/types';
 import './StationCard.scss';
 
@@ -10,7 +10,7 @@ interface IProps {
   favoriteActionName: string;
 }
 
-const StationCard: SFC<IProps> = ({ station, isActive, setActiveRadiostation, favoriteManageFunction, favoriteActionName }) => (
+const StationCard: FC<IProps> = ({ station, isActive, setActiveRadiostation, favoriteManageFunction, favoriteActionName }) => (
   <div className={`station-card ${isActive ? 'active' : ''}`} onClick={() => setActiveRadiostation(station)}>
     <div className='background-icon'>
       <div className={`triangle centered ${isActive ? 'animated' : ''}`} />
@@ -28,7 +28,7 @@ const StationCard: SFC<IProps> = ({ station, isActive, setActiveRadiostation, fa
         favoriteManageFunction(station);
       }}
     >
-      <span className={`${favoriteActionName === 'remove' ? 'remove' : 'add'}`}>
+      <span className={favoriteActionName}>
         {favoriteActionName === 'remove' ? '-' : '+'}
       </span>
     </div>

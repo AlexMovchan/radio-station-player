@@ -1,4 +1,4 @@
-import React, { SFC, useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 import StationCard from '../StationCard/StationCard';
 import { IStation, IFavoriteList } from './types';
 import { removeFromFavoriteList, setFavoriteListFromLocalStorage } from '../../redux/reducers/favoriteList';
@@ -12,16 +12,16 @@ interface IProps {
   setActiveRadiostation: (station: IStation) => void;
 }
 
-const FavoriteList: SFC<IProps> = ({ favoriteList, activeStation, setActiveRadiostation }) => {
+const FavoriteList: FC<IProps> = ({ favoriteList, activeStation, setActiveRadiostation }) => {
   const dispatch: Dispatch = useDispatch();
+
   useEffect(() => {
     const favoriteListFromStorage = window.localStorage.getItem('favoriteList');
     if (favoriteListFromStorage) {
       dispatch(setFavoriteListFromLocalStorage(JSON.parse(favoriteListFromStorage).favoriteList));
     }
-  }, [dispatch]);
+  }, []);
 
-  console.log(favoriteList)
   return (
     <div className='favirite-list-container' data-simplebar>
       <div className='favorite-stations-list'>

@@ -4,15 +4,13 @@ const ADD_TO_FAVORITE_LIST = 'reducers/favoriteList/ADD_TO_FAVORITE_LIST';
 const REMOVE_FROM_FAVORITE_LIST = 'reducers/favoriteList/REMOVE_FROM_FAVORITE_LIST';
 const SET_LIST_FROM_STORAGE = 'reducers/favoriteList/SET_LIST_FROM_STORAGE';
 
-export interface IFavoriteList {
-  [key: string]: IStation
+export interface IFavoriteListState {
+  favoriteList: {
+    [stationId: string]: IStation
+  }
 }
 
-export interface IState {
-  favoriteList: IFavoriteList
-}
-
-const initialState: IState = {
+const initialState: IFavoriteListState = {
   favoriteList: {}
 };
 

@@ -1,28 +1,32 @@
-import React, { Fragment, useMemo, useCallback } from 'react';
+import React, { FC, useMemo, useCallback } from 'react';
 import stations from '../../stations';
 import { addToFavoriteList } from '../../redux/reducers/favoriteList';
 import { setPauseStatus, setActiveStation } from '../../redux/reducers/track';
-import { useDispatch } from 'react-redux';
-import { useSelector, shallowEqual } from 'react-redux';
+import { connect } from 'react-redux';
 import StationCard from '../StationCard/StationCard';
 import FavoriteList from './FavoriteList';
-import { togglePlayAction } from '../../helpers/togglePlayAction';
+import { IStore } from '../../redux/store';
+import { IStation, IFavoriteList } from './types'
 import './Stations.scss';
 
-const Stations = () => {
-  const favoriteList = useSelector((state: any) => state.favoriteList.favoriteList, shallowEqual);
-  const activeStation = useSelector((state: any) => state.track.activeStation, shallowEqual);
-  const isPaused = useSelector((state: any) => state.track.isPaused);
-  const dispatch = useDispatch();
+interface IProps {
+  favoriteList: IFavoriteList;
+  activeStation: IStation;
+  isPaused: boolean;
+  dispatch: (action: any) => void;
+}
+
+const Stations: FC<IProps> = (props) => {
+  const { favoriteList, activeStation, isPaused, dispatch } = props;
 
   const setActiveRadiostation = useCallback((station) => {
     if (activeStation.id === station.id) {
-      togglePlayAction(isPaused, dispatch);
+      dispatch(setPauseStatus(!isPaused))
     } else {
       dispatch(setPauseStatus(false));
       dispatch(setActiveStation(station));
     }
-  }, [activeStation, dispatch, isPaused]);
+  }, [activeStation.id, isPaused]);
 
   const filteredStations = useMemo(() =>
     favoriteList
@@ -34,29 +38,33 @@ const Stations = () => {
   );
 
   return (
-    <Fragment>
-      <div className='stations-container'>
-        <FavoriteList
-          favoriteList={favoriteList}
-          activeStation={activeStation}
-          setActiveRadiostation={setActiveRadiostation}
-        />
+    <div className='stations-container'>
+      <FavoriteList
+        favoriteList={favoriteList}
+        activeStation={activeStation}
+        setActiveRadiostation={setActiveRadiostation}
+      />
 
-        <div className='stations-list'>
-          {filteredStations.map(station =>
-            <StationCard
-              key={station.id}
-              isActive={station.id === activeStation.id}
-              station={station}
-              setActiveRadiostation={setActiveRadiostation}
-              favoriteManageFunction={(station) => dispatch(addToFavoriteList(station))}
-              favoriteActionName='add'
-            />)
-          }
-        </div>
+      <div className='stations-list'>
+        {filteredStations.map(station =>
+          <StationCard
+            key={station.id}
+            isActive={station.id === activeStation.id}
+            station={station}
+            setActiveRadiostation={setActiveRadiostation}
+            favoriteManageFunction={(station) => dispatch(addToFavoriteList(station))}
+            favoriteActionName='add'
+          />)
+        }
       </div>
-    </Fragment>
+    </div>
   );
 };
 
-export default Stations;
+const mapStateToProps = (state: IStore) => ({
+  favoriteList: state.favoriteList.favoriteList,
+  activeStation: state.track.activeStation,
+  isPaused: state.track.isPaused,
+})
+
+export default connect(mapStateToProps)(Stations);

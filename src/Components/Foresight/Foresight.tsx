@@ -1,47 +1,45 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { compose, tap, identity, nth } from 'ramda';
+import { saveToLocalStorage, getFromLocalStorage } from '../../helpers/localStorageManager';
+import { fork } from '../../helpers/fpCombinators';
+import allForesigns from '../../foresight.json';
 import './Foresight.scss';
 
-const setForesightText = (text: string) => window.localStorage.setItem('ForesightText', text);
-const getForesightText = () => window.localStorage.getItem('ForesightText');
-const setForesightDay = (date: number) => window.localStorage.setItem('ForesightDay', date.toString());
-const getForesightDay = () => window.localStorage.getItem('ForesightDay');
+const randomIndex = (foresigns: string[]) => Math.random() * Math.floor(foresigns.length);
+const getRandomArrayIndex = compose(Math.floor, randomIndex);
+
+const getOneForesign = fork(nth, getRandomArrayIndex, identity);
 
 const Foresight = () => {
-  const [foresight, setForesight] = useState(() => getForesightText());
   const [marginRight, setMarginRight] = useState(0);
+  const [currentForesign, setForesignToState] = useState(getFromLocalStorage('ForesightText'))
 
+  const lastUsedForesightDate: string | null = getFromLocalStorage('ForesightDay');
+  const todaysDay: number = (new Date()).getDay();
+  const foresignContainerMargin: number = marginRight ? 0 : -320;
 
-  const lastUsedForesightDate: string | null = getForesightDay();
-  const todaysDate: number = (new Date()).getDay();
+  const toggleContainer = () => setMarginRight(foresignContainerMargin);
+
+  const generateForesign = compose(
+    tap(setForesignToState),
+    tap(saveToLocalStorage('ForesightText')),
+    getOneForesign,
+  )
 
   useEffect(() => {
-    if (Number(lastUsedForesightDate) !== Number(todaysDate)) {
-      setForesightText('');
-      setForesightDay(todaysDate);
+    if (Number(lastUsedForesightDate) !== Number(todaysDay)) {
+      saveToLocalStorage('ForesightText', '')
+      saveToLocalStorage('ForesightDay', todaysDay.toString());
     }
-  }, [lastUsedForesightDate, todaysDate]);
-
-  const getForesight = async() => {
-    const result = await axios.get('./foresight.json');
-    if (result.data) {
-      const arrayIndex = Math.floor(Math.random() * Math.floor(result.data.length));
-      setForesightText(result.data[arrayIndex]);
-      setForesight(result.data[arrayIndex]);
-    }
-  };
-
-  const toggleContainer = () => {
-    marginRight ? setMarginRight(0) : setMarginRight(-320);
-  };
+  }, [lastUsedForesightDate, todaysDay]);
 
   return (
     <div className='foresight-container' style={{ right: `${marginRight}px`}}>
       <h4>Передбачення на сьогодні:</h4>
       <p>
-        {Number(lastUsedForesightDate) !== todaysDate || !foresight || foresight === 'null'
-          ? <button onClick={getForesight}>Отримати передбачення!</button>
-          : foresight
+        {Number(lastUsedForesightDate) !== todaysDay || !currentForesign
+          ? <button onClick={() => generateForesign(allForesigns)}>Отримати передбачення!</button>
+          : currentForesign
         }
       </p>
       <div className='action-arrow' onClick={toggleContainer}>{marginRight ? '🡄' : '🡆'}</div>

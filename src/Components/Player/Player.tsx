@@ -17,7 +17,6 @@ interface IProps {
 }
 
 const Player: FC<IProps> = (props) => {
-  console.log(1);
   const [value, changeVolumeValue] = useState<number>(70);
   const { activeStation, trackInfo, isPaused, loading, dispatch } = props;
 
